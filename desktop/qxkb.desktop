@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+Exec=axkb
+Terminal=false
+Type=Application
+Categories=Application;Qt;Utility;
+Icon=axkb
+Name=AXKB
+Comment=Qt4-X11 Keyboard  switcher
+Comment[ru]= Переключатель раскладки на Qt4
+GenericName=Keyboard  switcher
+GenericName[ru]=Переключатель раскладки
