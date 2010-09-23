@@ -249,6 +249,8 @@ void QXKB::presConvertKey()
 
 void QXKB::convertString(QString content)
 {
+
+
     Display* disp = QX11Info::display();
     XkbStateRec rec;
     XkbGetState(disp, XkbUseCoreKbd, &rec);
@@ -267,17 +269,20 @@ void QXKB::convertString(QString content)
     xev.y            = 1;
     xev.x_root       = 1;
     xev.y_root       = 1;
-
+  qDebug()<<"Current string"<<content;
   //set state  (2<<12)*layotNumber if louwer case and  (2<<12)*layotNumber+1 if Upper
 //delete selected text
- xev.keycode = XKeysymToKeycode(disp,111);
- xev.type         = KeyPress;
- (void) XSendEvent(disp, xev.window, True, KeyPressMask,(XEvent *)&xev);
- XFlush(disp);
- xev.type         = KeyRelease;
- (void) XSendEvent(disp, xev.window, True, KeyReleaseMask,(XEvent *)&xev);
- XFlush(disp);
-
+ clipboard->clear();
+ for (int ii=0;ii<content.count();ii++)
+  {
+     xev.keycode = XKeysymToKeycode(disp,0xff08);
+     xev.type         = KeyPress;
+     (void) XSendEvent(disp, xev.window, True, KeyPressMask,(XEvent *)&xev);
+     XFlush(disp);
+     xev.type         = KeyRelease;
+     (void) XSendEvent(disp, xev.window, True, KeyReleaseMask,(XEvent *)&xev);
+     XFlush(disp);
+}
  //convert selected text
  for (int ii=0;ii<content.count();ii++)
     {
@@ -320,10 +325,9 @@ void QXKB::convertString(QString content)
 void QXKB::showClipboard()
 {
    selectedString= clipboard->text(QClipboard::Selection);
-    qDebug()<<"Current selection: "<< selectedString;
+     qDebug()<<"Current selection: "<< selectedString;
 
 }
-
 
 void QXKB::shotcutConvert()
 {
