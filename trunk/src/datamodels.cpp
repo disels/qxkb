@@ -35,7 +35,7 @@ QVariant SrcLayoutModel::data(const QModelIndex& index, int role) const
     {
         switch(col)
         {
-            case LAYOUT_COLUMN_FLAG: return QPixmap(iconDir+"/"+layout+".png");
+        case LAYOUT_COLUMN_FLAG: return QIcon::fromTheme(layout, QIcon(iconDir+"/"+layout+".png")).pixmap(QSize(48,32));
         }
     } else if (role == Qt::DisplayRole) {
         switch(col)
@@ -105,7 +105,7 @@ QVariant DstLayoutModel::data(const QModelIndex& index, int role) const
     } else if (role == Qt::DecorationRole) {
         switch(col) {
             case LAYOUT_COLUMN_FLAG:
-                return QPixmap(iconDir+"/"+lu.layout+".png");
+                return QIcon::fromTheme(lu.layout, QIcon(iconDir+"/"+lu.layout+".png")).pixmap(QSize(48,32));  //QPixmap(iconDir+"/"+lu.layout+".png");
         }
     } else if (role == Qt::DisplayRole) {
         switch(col) {

@@ -58,6 +58,7 @@
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Release</value>
    <value key="QtVersionId" type="int">2</value>
    <value key="ToolChain" type="int">0</value>
+   <value key="addQDumper" type=""></value>
    <value key="buildConfiguration" type="int">0</value>
   </valuemap>
  </data>
@@ -66,48 +67,46 @@
   <valuemap type="QVariantMap">
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Release</value>
    <valuelist key="abstractProcess.Environment" type="QVariantList">
-    <value type="QString">DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-HjMtk01X5P,guid=7370c0bb36e286627c54cd4c00000062</value>
-    <value type="QString">DESKTOP_SESSION=default</value>
+    <value type="QString">DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-0ySdz2oqDt,guid=b75fc46c3bebdf1d367761380000016c</value>
+    <value type="QString">DESKTOP_SESSION=kde</value>
     <value type="QString">DISPLAY=:0</value>
     <value type="QString">DM_CONTROL=/var/run/xdmctl</value>
-    <value type="QString">GS_LIB=/home/disel/.fonts</value>
-    <value type="QString">GTK2_RC_FILES=/etc/gtk-2.0/gtkrc:/home/disel/.gtkrc-2.0::/home/disel/.kde/share/config/gtkrc-2.0</value>
+    <value type="QString">GS_LIB=/home/disel//.fonts</value>
+    <value type="QString">GTK2_RC_FILES=/etc/gtk-2.0/gtkrc:/home/disel/.gtkrc-2.0:/home/disel/.gtkrc-2.0-kde:/home/disel/.kde/share/config/gtkrc-2.0</value>
     <value type="QString">GTK_MODULES=canberra-gtk-module</value>
     <value type="QString">GTK_RC_FILES=/etc/gtk/gtkrc:/home/disel/.gtkrc::/home/disel/.kde/share/config/gtkrc</value>
-    <value type="QString">HOME=/home/disel</value>
+    <value type="QString">HOME=/home/disel/</value>
     <value type="QString">KDE_FULL_SESSION=true</value>
     <value type="QString">KDE_MULTIHEAD=false</value>
     <value type="QString">KDE_SESSION_UID=1000</value>
     <value type="QString">KDE_SESSION_VERSION=4</value>
     <value type="QString">LANG=ru_UA.UTF-8</value>
-    <value type="QString">LANGUAGE=</value>
-    <value type="QString">LD_LIBRARY_PATH=/usr/lib/qtcreator:</value>
     <value type="QString">LOGNAME=disel</value>
-    <value type="QString">PATH=/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/bin/X11:/usr/games</value>
-    <value type="QString">PWD=/home/disel/Documents</value>
+    <value type="QString">PATH=/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games</value>
+    <value type="QString">PWD=/home/disel</value>
     <value type="QString">QTDIR=/usr/share/qt4</value>
     <value type="QString">QT_PLUGIN_PATH=/home/disel/.kde/lib/kde4/plugins/:/usr/lib/kde4/plugins/</value>
-    <value type="QString">SESSION_MANAGER=local/chelbara-ws:@/tmp/.ICE-unix/2330,unix/chelbara-ws:/tmp/.ICE-unix/2330</value>
+    <value type="QString">SESSION_MANAGER=local/debian:@/tmp/.ICE-unix/2246,unix/debian:/tmp/.ICE-unix/2246</value>
     <value type="QString">SHELL=/bin/bash</value>
     <value type="QString">SHLVL=0</value>
-    <value type="QString">SSH_AGENT_PID=2236</value>
-    <value type="QString">SSH_AUTH_SOCK=/tmp/ssh-biOOre2167/agent.2167</value>
+    <value type="QString">SSH_AGENT_PID=2142</value>
+    <value type="QString">SSH_AUTH_SOCK=/tmp/ssh-AQeqNn2097/agent.2097</value>
     <value type="QString">USER=disel</value>
     <value type="QString">WINDOWPATH=7</value>
-    <value type="QString">XCURSOR_THEME=Oxygen_Black</value>
+    <value type="QString">XCURSOR_THEME=oxy-chrome</value>
     <value type="QString">XDG_DATA_DIRS=/usr/share:/usr/share:/usr/local/share</value>
-    <value type="QString">XDG_SESSION_COOKIE=f9fe53be34830531942bc10500000028-1285056097.272529-100096719</value>
+    <value type="QString">XDG_SESSION_COOKIE=aed38c2c1048e67d5761f42c00000b2b-1285180929.712071-1335844559</value>
     <value type="QString">XDM_MANAGED=method=classic</value>
    </valuelist>
    <valuelist key="abstractProcess.arguments" type="QVariantList">
-    <value type="QString">/media/atlas_h/Project/DE/qxkb/QXKB.pro</value>
+    <value type="QString">/home/samba/DE/qxkb/QXKB.pro</value>
     <value type="QString">-spec</value>
     <value type="QString">linux-g++</value>
     <value type="QString">-r</value>
    </valuelist>
    <value key="abstractProcess.command" type="QString">/usr/bin/qmake-qt4</value>
    <value key="abstractProcess.enabled" type="bool">false</value>
-   <value key="abstractProcess.workingDirectory" type="QString">/media/atlas_h/Project/DE/qxkb</value>
+   <value key="abstractProcess.workingDirectory" type="QString">/home/samba/DE/qxkb</value>
   </valuemap>
  </data>
  <data>
@@ -115,37 +114,35 @@
   <valuemap type="QVariantMap">
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Release</value>
    <valuelist key="abstractProcess.Environment" type="QVariantList">
-    <value type="QString">DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-HjMtk01X5P,guid=7370c0bb36e286627c54cd4c00000062</value>
-    <value type="QString">DESKTOP_SESSION=default</value>
+    <value type="QString">DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-0ySdz2oqDt,guid=b75fc46c3bebdf1d367761380000016c</value>
+    <value type="QString">DESKTOP_SESSION=kde</value>
     <value type="QString">DISPLAY=:0</value>
     <value type="QString">DM_CONTROL=/var/run/xdmctl</value>
-    <value type="QString">GS_LIB=/home/disel/.fonts</value>
-    <value type="QString">GTK2_RC_FILES=/etc/gtk-2.0/gtkrc:/home/disel/.gtkrc-2.0::/home/disel/.kde/share/config/gtkrc-2.0</value>
+    <value type="QString">GS_LIB=/home/disel//.fonts</value>
+    <value type="QString">GTK2_RC_FILES=/etc/gtk-2.0/gtkrc:/home/disel/.gtkrc-2.0:/home/disel/.gtkrc-2.0-kde:/home/disel/.kde/share/config/gtkrc-2.0</value>
     <value type="QString">GTK_MODULES=canberra-gtk-module</value>
     <value type="QString">GTK_RC_FILES=/etc/gtk/gtkrc:/home/disel/.gtkrc::/home/disel/.kde/share/config/gtkrc</value>
-    <value type="QString">HOME=/home/disel</value>
+    <value type="QString">HOME=/home/disel/</value>
     <value type="QString">KDE_FULL_SESSION=true</value>
     <value type="QString">KDE_MULTIHEAD=false</value>
     <value type="QString">KDE_SESSION_UID=1000</value>
     <value type="QString">KDE_SESSION_VERSION=4</value>
     <value type="QString">LANG=ru_UA.UTF-8</value>
-    <value type="QString">LANGUAGE=</value>
-    <value type="QString">LD_LIBRARY_PATH=/usr/lib/qtcreator:</value>
     <value type="QString">LOGNAME=disel</value>
-    <value type="QString">PATH=/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/bin/X11:/usr/games</value>
-    <value type="QString">PWD=/home/disel/Documents</value>
+    <value type="QString">PATH=/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games</value>
+    <value type="QString">PWD=/home/disel</value>
     <value type="QString">QTDIR=/usr/share/qt4</value>
     <value type="QString">QT_PLUGIN_PATH=/home/disel/.kde/lib/kde4/plugins/:/usr/lib/kde4/plugins/</value>
-    <value type="QString">SESSION_MANAGER=local/chelbara-ws:@/tmp/.ICE-unix/2330,unix/chelbara-ws:/tmp/.ICE-unix/2330</value>
+    <value type="QString">SESSION_MANAGER=local/debian:@/tmp/.ICE-unix/2246,unix/debian:/tmp/.ICE-unix/2246</value>
     <value type="QString">SHELL=/bin/bash</value>
     <value type="QString">SHLVL=0</value>
-    <value type="QString">SSH_AGENT_PID=2236</value>
-    <value type="QString">SSH_AUTH_SOCK=/tmp/ssh-biOOre2167/agent.2167</value>
+    <value type="QString">SSH_AGENT_PID=2142</value>
+    <value type="QString">SSH_AUTH_SOCK=/tmp/ssh-AQeqNn2097/agent.2097</value>
     <value type="QString">USER=disel</value>
     <value type="QString">WINDOWPATH=7</value>
-    <value type="QString">XCURSOR_THEME=Oxygen_Black</value>
+    <value type="QString">XCURSOR_THEME=oxy-chrome</value>
     <value type="QString">XDG_DATA_DIRS=/usr/share:/usr/share:/usr/local/share</value>
-    <value type="QString">XDG_SESSION_COOKIE=f9fe53be34830531942bc10500000028-1285056097.272529-100096719</value>
+    <value type="QString">XDG_SESSION_COOKIE=aed38c2c1048e67d5761f42c00000b2b-1285180929.712071-1335844559</value>
     <value type="QString">XDM_MANAGED=method=classic</value>
    </valuelist>
    <value key="abstractProcess.IgnoreReturnValue" type="bool">false</value>
@@ -154,7 +151,7 @@
    </valuelist>
    <value key="abstractProcess.command" type="QString">/usr/bin/make</value>
    <value key="abstractProcess.enabled" type="bool">true</value>
-   <value key="abstractProcess.workingDirectory" type="QString">/media/atlas_h/Project/DE/qxkb</value>
+   <value key="abstractProcess.workingDirectory" type="QString">/home/samba/DE/qxkb</value>
   </valuemap>
  </data>
  <data>
@@ -162,37 +159,35 @@
   <valuemap type="QVariantMap">
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Release</value>
    <valuelist key="abstractProcess.Environment" type="QVariantList">
-    <value type="QString">DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-HjMtk01X5P,guid=7370c0bb36e286627c54cd4c00000062</value>
-    <value type="QString">DESKTOP_SESSION=default</value>
+    <value type="QString">DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-0ySdz2oqDt,guid=b75fc46c3bebdf1d367761380000016c</value>
+    <value type="QString">DESKTOP_SESSION=kde</value>
     <value type="QString">DISPLAY=:0</value>
     <value type="QString">DM_CONTROL=/var/run/xdmctl</value>
-    <value type="QString">GS_LIB=/home/disel/.fonts</value>
-    <value type="QString">GTK2_RC_FILES=/etc/gtk-2.0/gtkrc:/home/disel/.gtkrc-2.0::/home/disel/.kde/share/config/gtkrc-2.0</value>
+    <value type="QString">GS_LIB=/home/disel//.fonts</value>
+    <value type="QString">GTK2_RC_FILES=/etc/gtk-2.0/gtkrc:/home/disel/.gtkrc-2.0:/home/disel/.gtkrc-2.0-kde:/home/disel/.kde/share/config/gtkrc-2.0</value>
     <value type="QString">GTK_MODULES=canberra-gtk-module</value>
     <value type="QString">GTK_RC_FILES=/etc/gtk/gtkrc:/home/disel/.gtkrc::/home/disel/.kde/share/config/gtkrc</value>
-    <value type="QString">HOME=/home/disel</value>
+    <value type="QString">HOME=/home/disel/</value>
     <value type="QString">KDE_FULL_SESSION=true</value>
     <value type="QString">KDE_MULTIHEAD=false</value>
     <value type="QString">KDE_SESSION_UID=1000</value>
     <value type="QString">KDE_SESSION_VERSION=4</value>
     <value type="QString">LANG=ru_UA.UTF-8</value>
-    <value type="QString">LANGUAGE=</value>
-    <value type="QString">LD_LIBRARY_PATH=/usr/lib/qtcreator:</value>
     <value type="QString">LOGNAME=disel</value>
-    <value type="QString">PATH=/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/bin/X11:/usr/games</value>
-    <value type="QString">PWD=/home/disel/Documents</value>
+    <value type="QString">PATH=/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games</value>
+    <value type="QString">PWD=/home/disel</value>
     <value type="QString">QTDIR=/usr/share/qt4</value>
     <value type="QString">QT_PLUGIN_PATH=/home/disel/.kde/lib/kde4/plugins/:/usr/lib/kde4/plugins/</value>
-    <value type="QString">SESSION_MANAGER=local/chelbara-ws:@/tmp/.ICE-unix/2330,unix/chelbara-ws:/tmp/.ICE-unix/2330</value>
+    <value type="QString">SESSION_MANAGER=local/debian:@/tmp/.ICE-unix/2246,unix/debian:/tmp/.ICE-unix/2246</value>
     <value type="QString">SHELL=/bin/bash</value>
     <value type="QString">SHLVL=0</value>
-    <value type="QString">SSH_AGENT_PID=2236</value>
-    <value type="QString">SSH_AUTH_SOCK=/tmp/ssh-biOOre2167/agent.2167</value>
+    <value type="QString">SSH_AGENT_PID=2142</value>
+    <value type="QString">SSH_AUTH_SOCK=/tmp/ssh-AQeqNn2097/agent.2097</value>
     <value type="QString">USER=disel</value>
     <value type="QString">WINDOWPATH=7</value>
-    <value type="QString">XCURSOR_THEME=Oxygen_Black</value>
+    <value type="QString">XCURSOR_THEME=oxy-chrome</value>
     <value type="QString">XDG_DATA_DIRS=/usr/share:/usr/share:/usr/local/share</value>
-    <value type="QString">XDG_SESSION_COOKIE=f9fe53be34830531942bc10500000028-1285056097.272529-100096719</value>
+    <value type="QString">XDG_SESSION_COOKIE=aed38c2c1048e67d5761f42c00000b2b-1285180929.712071-1335844559</value>
     <value type="QString">XDM_MANAGED=method=classic</value>
    </valuelist>
    <value key="abstractProcess.IgnoreReturnValue" type="bool">true</value>
@@ -202,7 +197,7 @@
    </valuelist>
    <value key="abstractProcess.command" type="QString">/usr/bin/make</value>
    <value key="abstractProcess.enabled" type="bool">true</value>
-   <value key="abstractProcess.workingDirectory" type="QString">/media/atlas_h/Project/DE/qxkb</value>
+   <value key="abstractProcess.workingDirectory" type="QString">/home/samba/DE/qxkb</value>
    <value key="cleanConfig" type="bool">true</value>
    <valuelist key="makeargs" type="QVariantList">
     <value type="QString">clean</value>
