@@ -144,8 +144,8 @@ void XKeyboard::processEvent(XEvent *ev) {
       // state notify event, the current group has changed
       emit groupChanged(xkb_ev->state.group);
     }
-    else if ((xkb_ev->any.xkb_type == XkbMapNotify) && (xkb_ev->map.changed & XkbKeySymsMask)
-      || (xkb_ev->any.xkb_type == XkbNamesNotify) && (xkb_ev->names.changed & XkbGroupNamesMask)
+    else if (((xkb_ev->any.xkb_type == XkbMapNotify) && (xkb_ev->map.changed & XkbKeySymsMask))
+      || ((xkb_ev->any.xkb_type == XkbNamesNotify) && (xkb_ev->names.changed & XkbGroupNamesMask))
       || (xkb_ev->any.xkb_type == XkbNewKeyboardNotify)) {
       // keyboard layout has changed
       retrieveNumKbdGroups();

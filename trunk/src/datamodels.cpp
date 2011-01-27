@@ -29,13 +29,38 @@ QVariant SrcLayoutModel::data(const QModelIndex& index, int role) const
     QHash<QString, QString> layouts = m_rules->layouts;
     QString layout = m_layoutKeys[row];
 
+    QSvgRenderer *flagSVG ;
+    QIcon icons;
+
+    QString PNG = iconDir+"/"+layout+".png";
+    QString SVG = iconDir+"/"+layout+".svg";
+    bool isPNG = QFile::exists(PNG);
+    bool isSVG = QFile::exists(SVG);
+
+    if (isSVG)
+    {
+      flagSVG = new QSvgRenderer(SVG,NULL);
+      isSVG = isSVG && flagSVG->isValid();
+    }
+    if (isSVG)
+    {
+        QPixmap pix(48,22);
+        QPainter *painter =new QPainter();
+        painter->begin(&pix);
+        flagSVG->render(painter,QRectF(0,0,48,22));
+        painter->end();
+        icons = (QIcon(pix));
+    }
+    else if (isPNG)
+          icons = QIcon(PNG);
+
     if (role == Qt::TextAlignmentRole) {
         return int(Qt::AlignLeft | Qt::AlignVCenter);
     } else if (role == Qt::DecorationRole)
     {
         switch(col)
         {
-        case LAYOUT_COLUMN_FLAG: return QIcon::fromTheme(layout, QIcon(iconDir+"/"+layout+".png")).pixmap(QSize(48,32));
+          case LAYOUT_COLUMN_FLAG: return QIcon::fromTheme(layout, icons).pixmap(QSize(48,32));
         }
     } else if (role == Qt::DisplayRole) {
         switch(col)

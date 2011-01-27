@@ -197,9 +197,7 @@ void QXKB::draw_icon()
 
     if (xkbConf->showFlag && (havePNG || haveSVG ))
      {
-        if (havePNG)
-          trayIcon-> setIcon(QIcon(PNGfile));
-        else if (haveSVG)
+        if (haveSVG)
         {
             QPixmap pix(32,22);
             QPainter *painter =new QPainter();
@@ -208,6 +206,9 @@ void QXKB::draw_icon()
             painter->end();
             trayIcon-> setIcon(QIcon(pix));
         }
+        else if (havePNG)
+          trayIcon-> setIcon(QIcon(PNGfile));
+
 
      }
      else

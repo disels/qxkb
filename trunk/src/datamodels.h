@@ -88,6 +88,7 @@ private:
     QStringList m_layoutKeys;
     QString iconDir;
 
+
 signals:
     void layoutRemoved();
 };
