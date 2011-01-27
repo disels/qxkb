@@ -40,8 +40,7 @@ AnticoXKBconf::AnticoXKBconf(QWidget* parent) : QDialog(parent)
 
 void AnticoXKBconf::apply()
 {
-    xkbConf->shotcutConvert= xkb_conf.btConvert->text();
-    X11tools::saveXKBconf(xkbConf);
+      X11tools::saveXKBconf(xkbConf);
     if (xkb_conf.stackedWidget->currentIndex()==0)
     {
         QStringList parm =  xkb_conf.editCmdLine->text().split(" ");
@@ -110,13 +109,6 @@ void AnticoXKBconf::initXKBTab()
             case WIN_LAYOUT: xkb_conf.rdBtnSwitchPerWin->setChecked(true); break;
         }
 
-    if (xkbConf->useConvert)
-    {
-        xkb_conf.btConvert->setText(xkbConf->shotcutConvert);
-        xkb_conf.useConvert->setChecked(xkbConf->useConvert);
-        xkb_conf.btConvert->setEnabled(xkbConf->useConvert);
-    }
-
     connect(xkb_conf.srcTableView,SIGNAL(clicked (const QModelIndex &)),SLOT(srcClick(QModelIndex)));
     connect(xkb_conf.dstTableView->selectionModel(),SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),SLOT(dstClick()));
     connect(xkb_conf.comboModel,SIGNAL(currentIndexChanged (int)) ,SLOT(comboModelCh(int)));
@@ -126,7 +118,7 @@ void AnticoXKBconf::initXKBTab()
     connect(xkbOptionsModel, SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)),SLOT(xkbOptionsChanged(const QModelIndex &, const QModelIndex &)));
     connect( xkb_conf.btnXkbShortcut, SIGNAL(clicked()),SLOT(xkbShortcutPressed()));
     connect(xkb_conf.btnXkbShortcut3d, SIGNAL(clicked()), SLOT(xkbShortcut3dPressed()));
-    connect(xkb_conf.useConvert, SIGNAL(clicked()) , SLOT(clickOnConvertChk()));
+
 
     setCmdLine();
     updateOptionsCommand();
@@ -420,18 +412,6 @@ void AnticoXKBconf::statSwitching(bool /*check*/)
         xkbConf->switching=0;
   }
 
-void AnticoXKBconf::clickOnConvertChk()
-{
-    if (xkb_conf.useConvert->isChecked())
-         xkbConf->useConvert=true;
-    else
-        xkbConf->useConvert=false;
-}
-
-void AnticoXKBconf::clickOnConvertBtn()
-{
-
-}
 
 void AnticoXKBconf::getHotKeys(XEvent *event)
 {
@@ -454,13 +434,8 @@ void AnticoXKBconf::getHotKeys(XEvent *event)
    {
        hot_keys =key;
    }
-     xkb_conf.btConvert->setText(hot_keys);
- }
 
-bool AnticoXKBconf::isActiveGetKey()
-{
-    return  xkb_conf.btConvert->isActiveWindow();
-}
+ }
 
 void AnticoXKBconf::clearHotKeys()
 {
@@ -469,7 +444,6 @@ void AnticoXKBconf::clearHotKeys()
       qDebug()<<"AnticoXKBconf:: Kurrent key "<<key;
    if (!key.isEmpty()) return;
    mods.clear();
-   xkb_conf.btConvert->setText("");
- }
+  }
 
 

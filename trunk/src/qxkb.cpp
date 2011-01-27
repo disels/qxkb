@@ -10,7 +10,7 @@ QXKB::QXKB(int &argc, char **argv) : QApplication(argc, argv)
 {
     keys = new XKeyboard ();
     set_event_names();
-    initKeyCodeMap();
+
 }
 
 
@@ -129,56 +129,9 @@ bool QXKB::x11EventFilter(XEvent *event)
    switch (((XKeyEvent *)event)->type)
     {
 
-        case KeyPress:
-       {
-         qDebug()  << " QXKB:Key pressed" << event->xkey.keycode;
-          qDebug() << "QXKB: Locked status" << xkbConf->lockKeys;
-          XKeyEvent *keys = (XKeyEvent *)event;
-          qDebug() << "QXKB: create key event";
-          Display* display = QX11Info::display();
-          qDebug() << "QXKB: create display";
-          Qt::Key key = QKeySequence(xkbConf->shotcutConvert).isEmpty() ? Qt::Key(0) : Qt::Key(QKeySequence(xkbConf->shotcutConvert)[0] & 0x01FFFFFF);
-          qDebug() << "QXKB: create qt::key";
-          quint32 native= XKeysymToKeycode(display, XStringToKeysym(QKeySequence(key).toString().toLatin1().data()));
-          qDebug() << "QXKB: convert to native";
-          qDebug() << "QXKB: keys->keycode "<< keys->keycode;
-          qDebug() << "QXKB: xkbconf";
-          if( native ==  keys->keycode && !xkbConf->lockKeys)
-               {
-                 qDebug() << "QXKB: set next groupe";
-                 setNextGroupe();
-                 qDebug() << "QXKB: convert string";
-                 shotcutConvert();
-                 qDebug() << "QXKB: convert string ; done ";
-               }
-             else
-               {
-                  if (xkbconf->isActiveGetKey())
-                      xkbconf->getHotKeys(event);
-                }
-
-              }
-        break;
-        case KeyRelease:
-            {
-                if (xkbConf->lockKeys)
-                {
-                    if (xkbconf->isActiveGetKey())
-                              xkbconf->clearHotKeys();
-                    else
-                        {
-                         if (xkbConf->useConvert)
-                          {
-                            grabber->setShortcut(QKeySequence(xkbConf->shotcutConvert));
-                            grabber->setEnabled(true);
-                            }
-                        }
-                }
-            }
-           break;
         default:
             keys->processEvent(event);
-            return false;
+           return false;
     }
    return false;
 }
@@ -195,14 +148,6 @@ void QXKB::init()
        nextGroupe = currentGroup+1;
        else if (currentGroup == groupeName.size()-1)
            nextGroupe = 0;
-       if (xkbConf->useConvert)
-       {
-           qDebug()<<"QXKB::init : Set hotkeys : "<<xkbConf->shotcutConvert;
-           grabber = new QxtGlobalShortcut(this);
-           grabber->setShortcut(QKeySequence(xkbConf->shotcutConvert));
-           grabber->setEnabled(true);
-           connect(grabber,SIGNAL(activated()),SLOT(presConvertKey()));
-       }
        clipboard=  QApplication::clipboard();
        connect(clipboard,SIGNAL(selectionChanged()),SLOT(showClipboard()));
        connect(keys,SIGNAL(groupChanged(int)),this,SLOT(groupChange(int)));
@@ -218,109 +163,6 @@ int QXKB::getLayoutNumber()
     return (int)rec.group;
 }
 
-void QXKB::initKeyCodeMap()
-{
-        /* pc104 code lowwer [  ]  ;   '  ,  .
-       pc104 code upper  {  }  :   "  <  >
-       code              34 35 47 48 59  60
-    */
-    lowwerSymbol.insert("[",34);
-    lowwerSymbol.insert("]",35);
-    lowwerSymbol.insert(";",47);
-    lowwerSymbol.insert("'",48);
-    lowwerSymbol.insert("`",49);
-    lowwerSymbol.insert(",",59);
-    lowwerSymbol.insert(".",60);
-    upperSymbol.insert("/",62);
-    upperSymbol.insert("{",34);
-    upperSymbol.insert("}",35);
-    upperSymbol.insert(":",47);
-    upperSymbol.insert("\"",48);
-    upperSymbol.insert("~",49);
-    upperSymbol.insert("<",59);
-    upperSymbol.insert(">",60);
-    upperSymbol.insert("?",62);
-}
-
-void QXKB::presConvertKey()
-{
-    convertString(selectedString);
-}
-
-void QXKB::convertString(QString content)
-{
-
-
-    Display* disp = QX11Info::display();
-    XkbStateRec rec;
-    XkbGetState(disp, XkbUseCoreKbd, &rec);
-    int layotNumber = rec.group;
-    XKeyEvent xev; // create key event sdtruct
-    xev.window = X11tools::getActiveWindowId();
-    xev.serial       = 0;
-    xev.send_event   = 0;
-    xev.display      = disp;
-    xev.root         = None;
-    xev.subwindow    = None;
-    xev.time         = 0;
-    xev.same_screen  = 1;
-    xev.state        =0;
-    xev.x            = 1;
-    xev.y            = 1;
-    xev.x_root       = 1;
-    xev.y_root       = 1;
-  qDebug()<<"Current string"<<content;
-  //set state  (2<<12)*layotNumber if louwer case and  (2<<12)*layotNumber+1 if Upper
-//delete selected text
- clipboard->clear();
- for (int ii=0;ii<content.count();ii++)
-  {
-     xev.keycode = XKeysymToKeycode(disp,0xff08);
-     xev.type         = KeyPress;
-     (void) XSendEvent(disp, xev.window, True, KeyPressMask,(XEvent *)&xev);
-     XFlush(disp);
-     xev.type         = KeyRelease;
-     (void) XSendEvent(disp, xev.window, True, KeyReleaseMask,(XEvent *)&xev);
-     XFlush(disp);
-}
- //convert selected text
- for (int ii=0;ii<content.count();ii++)
-    {
-       // check space in input string
-       if (content[ii].isSpace())
-          xev.keycode = 65;
-       else
-       {
-         xev.keycode = lowwerSymbol.value(QString(content[ii]),255);
-         xev.state =(2<<12)*layotNumber;
-         if  (xev.keycode==255)
-         {  xev.keycode = upperSymbol.value(QString(content[ii]),255);
-            xev.state =(2<<12)*layotNumber+1;
-          }
-         if  (xev.keycode==255)
-         {
-             if (content[ii].isUpper())
-                  xev.state =(2<<12)*layotNumber+1;
-             else
-                  xev.state =(2<<12)*layotNumber;
-             char *symbol;
-             symbol=(char*) malloc(10);
-             strcpy(symbol,QString(content[ii]).toLocal8Bit().data());
-             xev.keycode =  XKeysymToKeycode(disp,XStringToKeysym(symbol));
-             if (NoSymbol==xev.keycode || 204== xev.keycode)
-             {   xev.keycode = XKeysymToKeycode(disp,X11tools::unicodeToKeysys(content[ii]));
-             }
-            }
-       }
-
-       xev.type         = KeyPress;
-       (void) XSendEvent(disp, xev.window, True, KeyPressMask,(XEvent *)&xev);
-       XFlush(disp);
-       xev.type         = KeyRelease;
-       (void) XSendEvent(disp, xev.window, True, KeyReleaseMask,(XEvent *)&xev);
-       XFlush(disp);
-    }
-}
 
 void QXKB::showClipboard()
 {
@@ -329,14 +171,6 @@ void QXKB::showClipboard()
 
 }
 
-void QXKB::shotcutConvert()
-{
-    clipboard->clear();
-    QString buf = clipboard->text(QClipboard::Selection);
-    qDebug()<<"QXKB: current string in buffer " << buf;
-    clipboard->clear();
-    convertString(buf);
-}
 
 void QXKB::draw_icon()
 {
