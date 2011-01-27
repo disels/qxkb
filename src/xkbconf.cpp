@@ -86,6 +86,7 @@ void AnticoXKBconf::initXKBTab()
     }
     // set avaleble language
     srcLayoutModel = new SrcLayoutModel(curRule,ico_path,this);
+    qDebug()<<(ico_path);
     dstLayoutModel = new DstLayoutModel(curRule,xkbConf,ico_path,this);
     xkbOptionsModel = new XkbOptionsModel(curRule,xkbConf,this);
     xkb_conf.comboModel->addItems(listModels);
