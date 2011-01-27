@@ -20,7 +20,7 @@ public:
     AnticoXKBconf(QWidget* parent=0);
     void getHotKeys(XEvent *event);
     void clearHotKeys();
-    bool isActiveGetKey();
+
   protected:
      void closeEvent(QCloseEvent *event);
 
@@ -45,8 +45,6 @@ public:
     void xkbShortcutPressed();
     void xkbShortcut3dPressed();
     void statSwitching(bool chek);
-    void clickOnConvertBtn();
-    void clickOnConvertChk();
 
 private:
     QString theme;

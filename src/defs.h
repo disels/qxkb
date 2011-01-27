@@ -7,8 +7,6 @@
 #ifndef DEFS_H
 #define DEFS_H
 
-#include <QxtGui/QxtGlobalShortcut>
-
 #include <QApplication>
 #include <QPushButton>
 #include <QMap>
@@ -85,6 +83,6 @@
 #include <X11/XKBlib.h>
 #include <X11/extensions/XKBrules.h>
 
-//#include <stdio.h>
+
 
 #endif

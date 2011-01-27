@@ -42,10 +42,8 @@ class QXKB : public QApplication
     protected slots:
         void reconfigure();
         void showClipboard();
-        void presConvertKey();
 
     protected:
-        int nextGroupe;
         void mousePressEvent(QMouseEvent *);
         int setKeyLayout(QString keyConf);
         void configure();
@@ -57,16 +55,15 @@ class QXKB : public QApplication
         void createMenu();
         bool load_rules();
         int getLayoutNumber();
-        void convertString(QString content);
-        void initKeyCodeMap();
 
-        QxtGlobalShortcut *grabber;
+
         QHash<int, QString> stat_names; // qxkb stats names
         QHash<int, QString> event_names; // event names
         QHash< QString,int> app_lang;
         QHash<Window,int> window_lang;
         QHash<Window,QString> app_window;
         Window active_window;
+        int nextGroupe;
         int currentGroup;
         QStringList groupeName;
         QStringList groupeFlag;
@@ -86,7 +83,6 @@ class QXKB : public QApplication
         //symbol to keycode
         QMap<QString,int> lowwerSymbol;
         QMap<QString,int> upperSymbol;
-        void shotcutConvert();
         void setLanguageMap(Window curent_window, int index);
         void checkLayoutChenge();
         void clearLangMap();
