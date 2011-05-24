@@ -6,7 +6,10 @@
 
 #include "qxkb.h"
 
-QXKB::QXKB(int &argc, char **argv) : QApplication(argc, argv)
+QXKB::QXKB(int &argc, char **argv) : QApplication(argc, argv),
+    contextMenu(0),
+    xkbConf(0),
+    xkbconf(0)
 {
     keys = new XKeyboard ();
     set_event_names();
@@ -59,11 +62,14 @@ void QXKB::set_event_names()
 
 void QXKB::setStartup()
 {
-    firstStart();
-    QSettings * antico = new QSettings(QDir::homePath() + "/.config/qxkb.cfg", QSettings::IniFormat, this);
-    antico->beginGroup("Style");
-    map_path = antico->value("path").toString()+"/language/";
-    antico->endGroup(); //Style
+    // Display the config dialog only on first run.
+    // It was really annoying to see it all time
+    bool first = firstStart();
+
+    QSettings antico(QDir::homePath() + "/.config/qxkb.cfg", QSettings::IniFormat, this);
+    antico.beginGroup("Style");
+    map_path = antico.value("path").toString()+"/language/";
+    antico.endGroup(); //Style
     xkbConf = X11tools::loadXKBconf();
     trayIcon = new QSystemTrayIcon(this);
     load_rules();
@@ -84,20 +90,32 @@ void QXKB::setStartup()
         }
         else
         {
-             configure();
+            if (first)
+                configure();
 
         }
     }
     else
     {
-        configure();
+        if (first)
+            configure();
      }
 }
 
 QXKB::~QXKB()
 {
-
- qDebug()<<"QXKB destructor";
+    qDebug()<<"QXKB destructor";
+    if (keys)
+        delete keys;
+    if (xkbconf)
+        delete xkbconf;
+    if (contextMenu)
+        delete contextMenu;
+    if (xkbConf)
+        delete xkbConf;
+    //! \warning the trayIcon *has* to be deleted here to prevent XFreeColormap() free corruption.
+    delete trayIcon;
+    qDebug()<<"QXKB destructor END";
 }
 
 bool QXKB::firstStart()
@@ -105,18 +123,18 @@ bool QXKB::firstStart()
     if (!QFile::exists(QDir::homePath() + "/.config/qxkb.cfg"))
     {
         qDebug()  << " QXKB:Config file not find in :" <<QDir::homePath();
-        qDebug()  << " QXKB:Create new ";
-        QSettings * antico = new QSettings(QDir::homePath() + "/.config/qxkb.cfg", QSettings::IniFormat, this);
+        qDebug()  << " QXKB:Create new";
+        QSettings antico(QDir::homePath() + "/.config/qxkb.cfg", QSettings::IniFormat, this);
         QString themePath;
         QDir themeDir("/usr/share/qxkb/theme/default");
         if (themeDir.exists())
            themePath=themeDir.path();
         else
            themePath =   QCoreApplication::applicationDirPath()+"/theme/default";;
-        antico->beginGroup("Style");
+        antico.beginGroup("Style");
         map_path = themePath;
-        antico->setValue("path",map_path);
-        antico->endGroup(); //Style
+        antico.setValue("path",map_path);
+        antico.endGroup(); //Style
         return true;
      }
     return false;
@@ -187,12 +205,11 @@ void QXKB::draw_icon()
 
    bool havePNG =  QFile::exists(PNGfile );
    bool haveSVG =  QFile::exists( SVGfile);
-
+    QSvgRenderer flagSVG(SVGfile);
 
    if (haveSVG)
    {
-     flagSVG = new QSvgRenderer(SVGfile,NULL);
-     haveSVG = haveSVG && flagSVG->isValid();
+     haveSVG = haveSVG && flagSVG.isValid();
    }
 
     if (xkbConf->showFlag && (havePNG || haveSVG ))
@@ -200,10 +217,10 @@ void QXKB::draw_icon()
         if (haveSVG)
         {
             QPixmap pix(32,22);
-            QPainter *painter =new QPainter();
-            painter->begin(&pix);
-            flagSVG->render(painter,QRectF(0,0,32,22));
-            painter->end();
+            QPainter painter;
+            painter.begin(&pix);
+            flagSVG.render(&painter,QRectF(0,0,32,22));
+            painter.end();
             trayIcon-> setIcon(QIcon(pix));
         }
         else if (havePNG)
@@ -313,23 +330,25 @@ void QXKB::createMenu()
             bool havePNG =  QFile::exists(PNGfile );
             bool haveSVG =  QFile::exists( SVGfile);
 
-             if (haveSVG)
-                   {
-                    flagSVG = new QSvgRenderer(SVGfile,NULL);
-                    haveSVG = haveSVG && flagSVG->isValid();
-                    }
-             if (havePNG)
-                    act->setIcon(QIcon(PNGfile));
-             else  if (haveSVG)
+            if (haveSVG)
+            {
+                QSvgRenderer flagSVG(SVGfile);
+                if ( haveSVG && flagSVG.isValid() )
                 {
                     QPixmap pix(32,22);
-                    QPainter *painter =new QPainter();
-                     painter->begin(&pix);
-                     flagSVG->render(painter,QRectF(0,0,32,22));
-                     painter->end();
+                    QPainter painter;
+                     painter.begin(&pix);
+                     flagSVG.render(&painter,QRectF(0,0,32,22));
+                     painter.end();
                     act->setIcon(QIcon(pix));
-                  }
-        act->setData(groupeName[index]);
+                }
+                else
+                    act->setIcon(QIcon(PNGfile));
+            }
+            else if (havePNG)
+                act->setIcon(QIcon(PNGfile));
+
+            act->setData(groupeName[index]);
         contextMenu->addAction(act);
         }
     contextMenu->addSeparator();
@@ -431,10 +450,13 @@ void  QXKB::actionsActivate(QAction * action)
 
 void  QXKB::configure()
 {
-   xkbconf = new AnticoXKBconf();
-   xkbConf->lockKeys=true;
-   connect(xkbconf,SIGNAL(saveConfig()),SLOT(reconfigure()));
-   xkbconf->exec();
+    if (!xkbconf)
+    {
+        xkbconf = new AnticoXKBconf();
+        xkbConf->lockKeys=true;
+        connect(xkbconf,SIGNAL(saveConfig()),SLOT(reconfigure()));
+    }
+    xkbconf->exec();
 }
 
 bool QXKB::load_rules()

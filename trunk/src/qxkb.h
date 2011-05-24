@@ -70,7 +70,7 @@ class QXKB : public QApplication
         QString flagsPath;
         XKeyboard *keys;
         QString map_path;
-        QProcess *xkbmap;
+        //QProcess *xkbmap;
         QString model;
         QString layout;
         QString variant;
@@ -87,7 +87,7 @@ class QXKB : public QApplication
         void checkLayoutChenge();
         void clearLangMap();
         AnticoXKBconf* xkbconf;
-        QSvgRenderer *flagSVG;
+        //QSvgRenderer *flagSVG;
         QString selectedString;
 
 
