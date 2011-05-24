@@ -12,7 +12,6 @@
 #include "xkeyboard.h"
 #include "x11tools.h"
 #include "xkbconf.h"
-#include "about.h"
 #include "convert.h"
 
 

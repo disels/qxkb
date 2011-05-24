@@ -11,9 +11,12 @@ QXKB::QXKB(int &argc, char **argv) : QApplication(argc, argv),
     xkbConf(0),
     xkbconf(0)
 {
+    // mandatory to keep it running after closing about dialogs...
+    setQuitOnLastWindowClosed(false);
+
     keys = new XKeyboard ();
     set_event_names();
-
+    setWindowIcon(QIcon(":/about/qxkb.png"));
 }
 
 
@@ -104,7 +107,6 @@ void QXKB::setStartup()
 
 QXKB::~QXKB()
 {
-    qDebug()<<"QXKB destructor";
     if (keys)
         delete keys;
     if (xkbconf)
@@ -115,7 +117,6 @@ QXKB::~QXKB()
         delete xkbConf;
     //! \warning the trayIcon *has* to be deleted here to prevent XFreeColormap() free corruption.
     delete trayIcon;
-    qDebug()<<"QXKB destructor END";
 }
 
 bool QXKB::firstStart()
@@ -142,7 +143,6 @@ bool QXKB::firstStart()
 
 bool QXKB::x11EventFilter(XEvent *event)
 {
-
    checkLayoutChenge();
    switch (((XKeyEvent *)event)->type)
     {
@@ -170,8 +170,6 @@ void QXKB::init()
        connect(clipboard,SIGNAL(selectionChanged()),SLOT(showClipboard()));
        connect(keys,SIGNAL(groupChanged(int)),this,SLOT(groupChange(int)));
        connect(keys,SIGNAL(layoutChanged()),this,SLOT(layoutChange()));
-
-
  }
 
 int QXKB::getLayoutNumber()
@@ -192,9 +190,12 @@ void QXKB::showClipboard()
 
 void QXKB::draw_icon()
 {
-   if (groupeName.count()==0) return;
+    if (groupeName.count()==0)
+        return;
     if (xkbConf->status==DONT_USE_XKB)
-    {  exit();
+    {
+        qDebug() << "QXKB::draw_icon() exit";
+        exit();
     }
 
    trayIcon->setContextMenu(contextMenu);
@@ -254,7 +255,6 @@ void QXKB::draw_icon()
 
 void QXKB::trayClicked(QSystemTrayIcon::ActivationReason reason)
 {
-
      switch (reason) {
      case QSystemTrayIcon::Trigger:
          setNextGroupe();
@@ -319,7 +319,11 @@ void QXKB::setPrevGroupe()
 void QXKB::createMenu()
 {
     qDebug()<<"Create menu" << groupeName;
-    contextMenu = new QMenu();
+    if (!contextMenu)
+        contextMenu = new QMenu();
+    else
+        contextMenu->clear();
+
     qDebug()<<"Avalible groups" << groupeName;
 
     for (int index=0;index<groupeName.size();index++)
@@ -351,21 +355,29 @@ void QXKB::createMenu()
             act->setData(groupeName[index]);
         contextMenu->addAction(act);
         }
+
     contextMenu->addSeparator();
+
     QAction *config = new QAction(tr("Configure"),this) ;
     config->setData("configure");
     contextMenu->addAction(config);
+
     contextMenu->addSeparator();
+
     QAction *about_qt = new QAction(tr("About Qt"),this) ;
     about_qt->setData("about_qt");
     contextMenu->addAction(about_qt);
+
     QAction *about_qxkb = new QAction(tr("About QXKB"),this) ;
-    about_qxkb->setData("about_axkb");
+    about_qxkb->setData("about_qxkb");
     contextMenu->addAction(about_qxkb);
+
     contextMenu->addSeparator();
+
     QAction *qxkbExit = new QAction(tr("Exit"),this) ;
     qxkbExit->setData("exit");
     contextMenu->addAction(qxkbExit);
+
     connect(contextMenu,SIGNAL(triggered(QAction*)),SLOT(actionsActivate(QAction*)));
 }
 
@@ -422,30 +434,36 @@ void  QXKB::set_xkb()
     }
 }
 
-void  QXKB::actionsActivate(QAction * action)
+void QXKB::actionsActivate(QAction * action)
 {
     QString cmd = action->data().toString();
-    qDebug()<<cmd;
+    qDebug() << "QXKB::actionsActivate() command" << cmd;
+
     if(cmd == "configure")
+    {
         configure();
+    }
     else if (cmd == "about_qt")
     {
-        About dlg;
-        dlg.aboutQt(tr("Antico XKB"));
-        dlg.exec();
+        aboutQt();
     }
     else if (cmd == "about_qxkb")
     {
-        QString about = tr("Antico XKB.\n Version: %1.\n Gui tools for configure  xkb extention of x server.\n 2009(c) Fedor Chelbarakh" ).arg("0.4.3-pre");
-        About dlg;
-        dlg.about (tr("Antico XKB"),about);
-        dlg.exec();
-
-     }
+        QMessageBox::about(0, tr("About QXKB"),
+                            tr("<h2>QXKB, the keyboard layout switcher</h2>"
+                               "<b>Version</b>: %1<p>"
+                               "Gui tool to configure xkb extentions of x server.<p>"
+                               "2009-2011(c) Fedor Chelbarakh").arg(QXKB_VERSION));
+    }
     else if (cmd == "exit")
-         exit(0);
+    {
+        qDebug() << "QXKB::actionsActivate() exit";
+        exit(0);
+    }
     else
-      keys->setGroupNo(groupeName.indexOf(cmd));
+    {
+        keys->setGroupNo(groupeName.indexOf(cmd));
+    }
 }
 
 void  QXKB::configure()
