@@ -4,32 +4,32 @@
 <context>
     <name>AXKB</name>
     <message>
-        <location filename="../src/axkb.cpp" line="211"/>
+        <location filename="../src/qxkb.cpp" line="211"/>
         <source>Configure</source>
         <translation>Настройка</translation>
     </message>
     <message>
-        <location filename="../src/axkb.cpp" line="215"/>
+        <location filename="../src/qxkb.cpp" line="215"/>
         <source>About Qt</source>
         <translation>О Qt</translation>
     </message>
     <message>
-        <location filename="../src/axkb.cpp" line="218"/>
+        <location filename="../src/qxkb.cpp" line="218"/>
         <source>About AXKB</source>
         <translation>О AXKB</translation>
     </message>
     <message>
-        <location filename="../src/axkb.cpp" line="222"/>
+        <location filename="../src/qxkb.cpp" line="222"/>
         <source>Exit</source>
         <translation>Выход</translation>
     </message>
     <message>
-        <location filename="../src/axkb.cpp" line="296"/>
+        <location filename="../src/qxkb.cpp" line="296"/>
         <source>Antico XKB</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/axkb.cpp" line="294"/>
+        <location filename="../src/qxkb.cpp" line="294"/>
         <source>Antico XKB.
  Gui tools for configure  xkb extention of x server.
  2009(c) Fedor Chelbarakh</source>
