@@ -1,7 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Type=Application
-Exec=axkb
+Exec=qxkb
 Terminal=false
 Type=Application
 Categories=Application;Qt;Utility;
