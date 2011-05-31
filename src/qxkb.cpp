@@ -100,9 +100,9 @@ void QXKB::setStartup()
     }
     else
     {
-        if (first)
+    //    if (first) show the cfg dialog whenthere is no tray icon
             configure();
-     }
+    }
 }
 
 QXKB::~QXKB()
