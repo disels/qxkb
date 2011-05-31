@@ -8,6 +8,7 @@
 
 QXKB::QXKB(int &argc, char **argv) : QApplication(argc, argv),
     contextMenu(0),
+    rule(0),
     xkbConf(0),
     xkbconf(0)
 {
@@ -390,11 +391,17 @@ void  QXKB::reconfigure()
     if (tmpGrName!=groupeName || newConf->layouts != xkbConf->layouts || newConf->showFlag != xkbConf->showFlag || newConf->showSingle != xkbConf->showSingle || newConf->status != xkbConf->status)
     {
         groupeName=tmpGrName;
+        if (xkbConf)
+        {
+            delete xkbConf;
+        }
         xkbConf=newConf;
         init();
         createMenu();
         draw_icon();
     }
+    else
+        delete newConf;
 }
 
 void  QXKB::set_xkb()
@@ -486,8 +493,11 @@ bool QXKB::load_rules()
      if ( rulesFile.isNull() || rulesFile.isEmpty())
         return false;
 
+    if (rule)
+       delete rule;
     rule = X11tools::loadRules(rulesFile,false);
-    if (rule==NULL)
+
+    if (!rule)
         return false;
 
    return true;
