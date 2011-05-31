@@ -259,7 +259,7 @@ RulesInfo* X11tools::loadRules(const QString& file, bool layoutsOnly)
         qDebug() << " X11tools::loadRule " ;
         if (xkbRules == NULL) {
 // throw Exception
-                return NULL;
+                return 0;
         }
 
     // try to translate layout names by countries in desktop_kdebase
@@ -352,7 +352,7 @@ bool X11tools::isGroupExclusive(const QString& groupName)
 
 QList<XkbVariant> X11tools::getVariants(const QString& layout, const QString& x11Dir)
 {
-  QList<XkbVariant>* result = new QList<XkbVariant>();
+  QList<XkbVariant> result;
 
   QString file = x11Dir + "xkb/symbols/";
   // workaround for XFree 4.3 new directory for one-group layouts
@@ -398,14 +398,14 @@ QList<XkbVariant> X11tools::getVariants(const QString& layout, const QString& x1
             XkbVariant variant;
             variant.name = line.mid(pos, pos2-pos);
             variant.description = line.mid(pos, pos2-pos);
-            result->append(variant);
+            result.append(variant);
 //  qDebug() << "adding variant " << line.mid(pos, pos2-pos);
       }
 
       f.close();
     }
 
-    return *result;
+    return result;
 }
 
 XKBConf X11tools::getGroupNames(Display* dpy)
@@ -484,15 +484,15 @@ XKBConf* X11tools::loadXKBconf()
 {
     XKBConf* Conf = new XKBConf();
     LayoutUnit lu;
-    QSettings *antico = new QSettings(QDir::homePath() + "/.config/qxkb.cfg", QSettings::IniFormat);
-    antico->beginGroup("KeyLayout");
-    Conf->model = antico->value("model").toString();
+    QSettings antico(QDir::homePath() + "/.config/qxkb.cfg", QSettings::IniFormat);
+    antico.beginGroup("KeyLayout");
+    Conf->model = antico.value("model").toString();
     if (Conf->model.isEmpty())
         Conf->model="pc104";
-    if (!antico->value("layout").toString().isEmpty()&& !antico->value("layout").toString().isNull())
+    if (!antico.value("layout").toString().isEmpty()&& !antico.value("layout").toString().isNull())
     {
-        QStringList l = antico->value("layout").toString().split(",");;
-        QStringList v = antico->value("variant").toString().split(",");;
+        QStringList l = antico.value("layout").toString().split(",");;
+        QStringList v = antico.value("variant").toString().split(",");;
          for(int i =0 ;i<l.size();i++)
          {
                lu.layout=l[i];
@@ -510,15 +510,16 @@ XKBConf* X11tools::loadXKBconf()
         lu.variant=" ";
         Conf->layouts.append(lu);
     }
-    if (!antico->value("option").toString().isEmpty())
-        Conf->options = antico->value("option").toString().split(",");
-    Conf->status = antico->value("status").toInt();
-    Conf->showFlag= antico->value("showflag").toBool();
-    Conf->showSingle= antico->value("showsingle").toBool();
-    Conf->switching= antico->value("switching").toInt();
-    Conf->useConvert= antico->value("useConvert").toBool();
-    Conf->shotcutConvert= antico->value("shotcutConvert").toString();
+    if (!antico.value("option").toString().isEmpty())
+        Conf->options = antico.value("option").toString().split(",");
+    Conf->status = antico.value("status").toInt();
+    Conf->showFlag= antico.value("showflag").toBool();
+    Conf->showSingle= antico.value("showsingle").toBool();
+    Conf->switching= antico.value("switching").toInt();
+    Conf->useConvert= antico.value("useConvert").toBool();
+    Conf->shotcutConvert= antico.value("shotcutConvert").toString();
     Conf->lockKeys=false;
+    antico.endGroup();
     return Conf;
 }
 
@@ -526,9 +527,9 @@ void X11tools::saveXKBconf(XKBConf* conf)
 {
 
     LayoutUnit lu;
-    QSettings *antico = new QSettings(QDir::homePath() + "/.config/qxkb.cfg", QSettings::IniFormat);
-    antico->beginGroup("KeyLayout");
-    antico->setValue("model",conf->model);
+    QSettings antico(QDir::homePath() + "/.config/qxkb.cfg", QSettings::IniFormat);
+    antico.beginGroup("KeyLayout");
+    antico.setValue("model",conf->model);
     QString layout;
     QString variant;
 
@@ -541,16 +542,17 @@ void X11tools::saveXKBconf(XKBConf* conf)
         if (i<conf->layouts.size()-1)
             variant+=",";
      }
-     antico->setValue("layout",layout);
-     antico->setValue("variant",variant);
-     antico->setValue("status",conf->status);
-     antico->setValue("showflag",conf->showFlag);
-     antico->setValue("showsingle",conf->showSingle);
-     antico->setValue("switching",conf->switching);
-     antico->setValue("useConvert",conf->useConvert);
-     antico->setValue("shotcutConvert",conf->shotcutConvert);
+     antico.setValue("layout",layout);
+     antico.setValue("variant",variant);
+     antico.setValue("status",conf->status);
+     antico.setValue("showflag",conf->showFlag);
+     antico.setValue("showsingle",conf->showSingle);
+     antico.setValue("switching",conf->switching);
+     antico.setValue("useConvert",conf->useConvert);
+     antico.setValue("shotcutConvert",conf->shotcutConvert);
      QString option= conf->options.join(",");
-     antico->setValue("option",option);
+     antico.setValue("option",option);
+     antico.endGroup();
 
 }
 
@@ -594,10 +596,10 @@ Window X11tools::getActiveWindowId()
 
 QString X11tools::getActiveWindowAppName(Window windowsId)
 {
-   char **window_name_return;
-   window_name_return=(char**) malloc(50);
-   XFetchName(QX11Info::display(), windowsId, window_name_return);
-   QString win_name = QString(*window_name_return);
+    char *window_name_return;
+    XFetchName(QX11Info::display(), windowsId, &window_name_return);
+    QString win_name = QString(window_name_return);
+    XFree(window_name_return);
    QStringList tmp = win_name.split("-");
    if (tmp.count()>1) win_name= tmp[tmp.count()-1];
    tmp = win_name.split(":");

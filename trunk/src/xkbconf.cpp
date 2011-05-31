@@ -9,11 +9,11 @@
 AnticoXKBconf::AnticoXKBconf(QWidget* parent) : QDialog(parent)
 {
    xkb_conf.setupUi(this);
-   QSettings * antico = new QSettings(QDir::homePath() + "/.config/qxkb.cfg", QSettings::IniFormat, this);
-   antico->beginGroup("Style");
-   theme=antico->value("path").toString();
+   QSettings antico(QDir::homePath() + "/.config/qxkb.cfg", QSettings::IniFormat, this);
+   antico.beginGroup("Style");
+   theme=antico.value("path").toString();
    ico_path = theme+"/language/";
-   antico->endGroup(); //Style
+   antico.endGroup(); //Style
    qDebug()<<"Theme " << theme;
    qDebug()<<"Icons " << ico_path;
    xkbConf = X11tools::loadXKBconf();
@@ -34,8 +34,11 @@ AnticoXKBconf::AnticoXKBconf(QWidget* parent) : QDialog(parent)
    if (!setStat()) return;
    initXKBTab();
    xkbConf->lockKeys=true;
+}
 
-
+AnticoXKBconf::~AnticoXKBconf()
+{
+    delete xkbConf;
 }
 
 void AnticoXKBconf::apply()

@@ -18,6 +18,7 @@ class AnticoXKBconf : public QDialog
 public:
     Ui_Form xkb_conf;
     AnticoXKBconf(QWidget* parent=0);
+    ~AnticoXKBconf();
     void getHotKeys(XEvent *event);
     void clearHotKeys();
 
