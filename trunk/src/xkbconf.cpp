@@ -9,6 +9,8 @@
 QXKBconf::QXKBconf(QWidget* parent) : QDialog(parent)
 {
    xkb_conf.setupUi(this);
+    // initialize the binding between list and stackedWidget
+    xkb_conf.listWidget->setCurrentRow(0);
    QSettings qxkb(QDir::homePath() + "/.config/qxkb.cfg", QSettings::IniFormat, this);
    qxkb.beginGroup("Style");
    theme=qxkb.value("path").toString();
@@ -95,7 +97,9 @@ void QXKBconf::initXKBTab()
     xkb_conf.comboModel->addItems(listModels);
     xkb_conf.comboModel->setCurrentIndex(listModels.indexOf(curRule->models.value(xkbConf->model)));
     xkb_conf.srcTableView->setModel(srcLayoutModel);
+    xkb_conf.srcTableView->resizeColumnToContents(0);
     xkb_conf.dstTableView->setModel(dstLayoutModel);
+    xkb_conf.dstTableView->resizeColumnToContents(0);
     xkb_conf.xkbOptionsTreeView->setModel(xkbOptionsModel);
     xkb_conf.xkbOptionsTreeView->header()->hide();
     xkb_conf.xkbOptionsTreeView->expandAll();
