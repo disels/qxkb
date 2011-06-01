@@ -458,7 +458,7 @@ void QXKB::actionsActivate(QAction * action)
                             tr("<h2>QXKB, the keyboard layout switcher</h2>"
                                "<b>Version</b>: %1<p>"
                                "Gui tool to configure xkb extentions of x server.<p>"
-                               "2009-2011(c) Fedor Chelbarakh").arg(QXKB_VERSION));
+                               "2009-2011(c) Fedor Chelbarakh, Petr Vanek ").arg(QXKB_VERSION));
     }
     else if (cmd == "exit")
     {
