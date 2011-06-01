@@ -217,6 +217,7 @@ X11tools::X11tools()
 
 const QString X11tools::findX11Dir()
 {
+  /*  Find directory whith xkb config files */
         for(int ii=0; ii<X11_DIR_COUNT; ii++) {
                 const char* xDir = X11DirList[ii];
                 if( xDir != NULL && QDir(QString(xDir) + "xkb/rules").exists() ) {
@@ -249,12 +250,15 @@ const QString X11tools::findXkbRulesFile(const QString &x11Dir,Display *dpy)
                     }
         }
     }
-
+        delete (tmp);
         return rulesFile;
 }
 
 RulesInfo* X11tools::loadRules(const QString& file, bool layoutsOnly)
 {
+    /*Load the list of languages, keybord layouts and option ​​supported by xkb extension X Server
+    and save into hash table  */
+
         XkbRF_RulesPtr xkbRules = XkbRF_Load(QFile::encodeName(file).data(), (char*)"", true, true);
         qDebug() << " X11tools::loadRule " ;
         if (xkbRules == NULL) {

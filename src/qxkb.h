@@ -58,7 +58,7 @@ class QXKB : public QApplication
 
         QHash<int, QString> stat_names; // qxkb stats names
         QHash<int, QString> event_names; // event names
-        QHash< QString,int> app_lang;
+        QHash< QString,int> app_lang; // app name and key layout
         QHash<Window,int> window_lang;
         QHash<Window,QString> app_window;
         Window active_window;

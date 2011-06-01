@@ -10,13 +10,13 @@ OBJECTS_DIR += build
 MOC_DIR += build
 QMAKE_INCDIR += /usr/include 
 QMAKE_CLEAN += qxkb
-CONFIG += warn_on release
+CONFIG += warn_on debug
 LIBS += -lxkbfile -lX11
 TRANSLATIONS = language/qxkb_ru.ts
 
 # version for C++ code too ************
 
-VERSION = 0.4.3-pre
+VERSION = 0.4.3-1-alfa
 DEFINES += "QXKB_VERSION=\\\"$$VERSION\\\""
 
 # installs ****************************
