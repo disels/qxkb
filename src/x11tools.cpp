@@ -488,15 +488,15 @@ XKBConf* X11tools::loadXKBconf()
 {
     XKBConf* Conf = new XKBConf();
     LayoutUnit lu;
-    QSettings antico(QDir::homePath() + "/.config/qxkb.cfg", QSettings::IniFormat);
-    antico.beginGroup("KeyLayout");
-    Conf->model = antico.value("model").toString();
+    QSettings qxkb(QDir::homePath() + "/.config/qxkb.cfg", QSettings::IniFormat);
+    qxkb.beginGroup("KeyLayout");
+    Conf->model = qxkb.value("model").toString();
     if (Conf->model.isEmpty())
         Conf->model="pc104";
-    if (!antico.value("layout").toString().isEmpty()&& !antico.value("layout").toString().isNull())
+    if (!qxkb.value("layout").toString().isEmpty()&& !qxkb.value("layout").toString().isNull())
     {
-        QStringList l = antico.value("layout").toString().split(",");;
-        QStringList v = antico.value("variant").toString().split(",");;
+        QStringList l = qxkb.value("layout").toString().split(",");;
+        QStringList v = qxkb.value("variant").toString().split(",");;
          for(int i =0 ;i<l.size();i++)
          {
                lu.layout=l[i];
@@ -514,16 +514,16 @@ XKBConf* X11tools::loadXKBconf()
         lu.variant=" ";
         Conf->layouts.append(lu);
     }
-    if (!antico.value("option").toString().isEmpty())
-        Conf->options = antico.value("option").toString().split(",");
-    Conf->status = antico.value("status").toInt();
-    Conf->showFlag= antico.value("showflag").toBool();
-    Conf->showSingle= antico.value("showsingle").toBool();
-    Conf->switching= antico.value("switching").toInt();
-    Conf->useConvert= antico.value("useConvert").toBool();
-    Conf->shotcutConvert= antico.value("shotcutConvert").toString();
+    if (!qxkb.value("option").toString().isEmpty())
+        Conf->options = qxkb.value("option").toString().split(",");
+    Conf->status = qxkb.value("status").toInt();
+    Conf->showFlag= qxkb.value("showflag").toBool();
+    Conf->showSingle= qxkb.value("showsingle").toBool();
+    Conf->switching= qxkb.value("switching").toInt();
+    Conf->useConvert= qxkb.value("useConvert").toBool();
+    Conf->shotcutConvert= qxkb.value("shotcutConvert").toString();
     Conf->lockKeys=false;
-    antico.endGroup();
+    qxkb.endGroup();
     return Conf;
 }
 
@@ -531,9 +531,9 @@ void X11tools::saveXKBconf(XKBConf* conf)
 {
 
     LayoutUnit lu;
-    QSettings antico(QDir::homePath() + "/.config/qxkb.cfg", QSettings::IniFormat);
-    antico.beginGroup("KeyLayout");
-    antico.setValue("model",conf->model);
+    QSettings qxkb(QDir::homePath() + "/.config/qxkb.cfg", QSettings::IniFormat);
+    qxkb.beginGroup("KeyLayout");
+    qxkb.setValue("model",conf->model);
     QString layout;
     QString variant;
 
@@ -546,17 +546,17 @@ void X11tools::saveXKBconf(XKBConf* conf)
         if (i<conf->layouts.size()-1)
             variant+=",";
      }
-     antico.setValue("layout",layout);
-     antico.setValue("variant",variant);
-     antico.setValue("status",conf->status);
-     antico.setValue("showflag",conf->showFlag);
-     antico.setValue("showsingle",conf->showSingle);
-     antico.setValue("switching",conf->switching);
-     antico.setValue("useConvert",conf->useConvert);
-     antico.setValue("shotcutConvert",conf->shotcutConvert);
+     qxkb.setValue("layout",layout);
+     qxkb.setValue("variant",variant);
+     qxkb.setValue("status",conf->status);
+     qxkb.setValue("showflag",conf->showFlag);
+     qxkb.setValue("showsingle",conf->showSingle);
+     qxkb.setValue("switching",conf->switching);
+     qxkb.setValue("useConvert",conf->useConvert);
+     qxkb.setValue("shotcutConvert",conf->shotcutConvert);
      QString option= conf->options.join(",");
-     antico.setValue("option",option);
-     antico.endGroup();
+     qxkb.setValue("option",option);
+     qxkb.endGroup();
 
 }
 

@@ -70,10 +70,10 @@ void QXKB::setStartup()
     // It was really annoying to see it all time
     bool first = firstStart();
 
-    QSettings antico(QDir::homePath() + "/.config/qxkb.cfg", QSettings::IniFormat, this);
-    antico.beginGroup("Style");
-    map_path = antico.value("path").toString()+"/language/";
-    antico.endGroup(); //Style
+    QSettings qxkb(QDir::homePath() + "/.config/qxkb.cfg", QSettings::IniFormat, this);
+    qxkb.beginGroup("Style");
+    map_path = qxkb.value("path").toString()+"/language/";
+    qxkb.endGroup(); //Style
     xkbConf = X11tools::loadXKBconf();
     trayIcon = new QSystemTrayIcon(this);
     load_rules();
@@ -126,17 +126,17 @@ bool QXKB::firstStart()
     {
         qDebug()  << " QXKB:Config file not find in :" <<QDir::homePath();
         qDebug()  << " QXKB:Create new";
-        QSettings antico(QDir::homePath() + "/.config/qxkb.cfg", QSettings::IniFormat, this);
+        QSettings qxkb(QDir::homePath() + "/.config/qxkb.cfg", QSettings::IniFormat, this);
         QString themePath;
         QDir themeDir("/usr/share/qxkb/theme/default");
         if (themeDir.exists())
            themePath=themeDir.path();
         else
            themePath =   QCoreApplication::applicationDirPath()+"/theme/default";;
-        antico.beginGroup("Style");
+        qxkb.beginGroup("Style");
         map_path = themePath;
-        antico.setValue("path",map_path);
-        antico.endGroup(); //Style
+        qxkb.setValue("path",map_path);
+        qxkb.endGroup(); //Style
         return true;
      }
     return false;
@@ -475,7 +475,7 @@ void  QXKB::configure()
 {
     if (!xkbconf)
     {
-        xkbconf = new AnticoXKBconf();
+        xkbconf = new QXKBconf();
         xkbConf->lockKeys=true;
         connect(xkbconf,SIGNAL(saveConfig()),SLOT(reconfigure()));
     }
