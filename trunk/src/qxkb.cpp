@@ -273,7 +273,6 @@ void QXKB::trayClicked(QSystemTrayIcon::ActivationReason reason)
 void QXKB::layoutChange()
 {
     currentGroup=keys->getGroupNo();
-    setLanguageMap(X11tools::getActiveWindowId(), currentGroup);
     qDebug()<<"QXKB::layoutChange : reconfig";
     reconfigure();
     qDebug()<<"QXKB::layoutChange : done";
@@ -289,7 +288,6 @@ void QXKB::groupChange(int index)
     else if (currentGroup == groupeName.size()-1)
        nextGroupe = 0;
     draw_icon();
-    setLanguageMap(X11tools::getActiveWindowId(), index);
 
   }
 
@@ -484,8 +482,15 @@ void  QXKB::configure()
     xkbconf->exec();
 }
 
+
 bool QXKB::load_rules()
 {
+    /*Load aceptet keyboard language layouts and options from X11
+      (like en,ru,ua etc.)
+      and create list for configuration window
+      Some code taken from kxkb project
+      do no remove this
+      */
     QString x11dir = X11tools::findX11Dir();
     if ( x11dir.isNull() || x11dir.isEmpty())
         return false;
@@ -506,6 +511,11 @@ bool QXKB::load_rules()
 
 void QXKB::setLanguageMap(Window curent_window, int index)
 {
+    /* Remove or alter
+    Compiles a list of windows and their current input language.
+    planned to use for the method of "switching language for windows.
+   Think it is necessary to remove or alter the implementation.*/
+
    int cur_lang;
    QString current_app=X11tools::getActiveWindowAppName(curent_window);
    clearLangMap();
@@ -553,12 +563,7 @@ void QXKB::checkLayoutChenge()
 
   qDebug()  << " QXKB:Selected lang : "<<cur_lang;
   qDebug()  << " QXKB:Curent window :"<<curent_window;
-  if (cur_lang<0)
-  {
-      setLanguageMap(curent_window,keys->getGroupNo());
-      return;
-  }
-   keys->setGroupNo(cur_lang);
+  keys->setGroupNo(cur_lang);
 }
 
 void QXKB::clearLangMap()
