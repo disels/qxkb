@@ -144,8 +144,7 @@ bool QXKB::firstStart()
 
 bool QXKB::x11EventFilter(XEvent *event)
 {
-   checkLayoutChenge();
-   switch (((XKeyEvent *)event)->type)
+    switch (((XKeyEvent *)event)->type)
     {
 
         default:
@@ -509,79 +508,3 @@ bool QXKB::load_rules()
 
 }
 
-void QXKB::setLanguageMap(Window curent_window, int index)
-{
-    /* Remove or alter
-    Compiles a list of windows and their current input language.
-    planned to use for the method of "switching language for windows.
-   Think it is necessary to remove or alter the implementation.*/
-
-   int cur_lang;
-   QString current_app=X11tools::getActiveWindowAppName(curent_window);
-   clearLangMap();
-
-   cur_lang= app_lang.value(current_app,-1);
-    if (cur_lang<0)
-            app_lang.insert(current_app,index);
-    else
-         if (index!=cur_lang)
-        {
-            app_lang.remove(current_app);
-            app_lang.insert(current_app,index);
-         }
-  cur_lang=window_lang.value(curent_window,-1);
-   if (cur_lang<0)
-            window_lang.insert(curent_window,index);
-    else
-        if (index!=cur_lang)
-        {
-            window_lang.remove(curent_window);
-            window_lang.insert(curent_window,index);
-
-         }
-    if (app_window.value(curent_window,"").isEmpty())
-          app_window.insert(curent_window,current_app);
-
-
-}
-
-void QXKB::checkLayoutChenge()
-{
-    if   (xkbConf->switching  ==GLOBAL_LAYOUT) return;
-
-    int cur_lang=0;
-    Window curent_window=X11tools::getActiveWindowId();
-    if (active_window == curent_window) return;
-    active_window = curent_window;
-
-    QString current_app=X11tools::getActiveWindowAppName(curent_window);
-      qDebug()  << " QXKB:Switch stat"<<xkbConf->switching ;
- if   (xkbConf->switching  ==APP_LAYOUT)
-     cur_lang=app_lang.value(current_app,-1);
- if   (xkbConf->switching  ==WIN_LAYOUT)
-     cur_lang=window_lang.value(curent_window,-1);
-
-  qDebug()  << " QXKB:Selected lang : "<<cur_lang;
-  qDebug()  << " QXKB:Curent window :"<<curent_window;
-  keys->setGroupNo(cur_lang);
-}
-
-void QXKB::clearLangMap()
-{
-
-    QHashIterator<Window, int> i(window_lang);
-    while (i.hasNext())
-    {
-     i.next();
-      XWindowAttributes *window_attributes_return;
-      window_attributes_return = (XWindowAttributes *) malloc(255);
-      Status  stat = XGetWindowAttributes(QX11Info::display(), i.key(), window_attributes_return);
-     if (stat== BadDrawable || stat==BadWindow)
-      {
-         window_lang.remove(i.key());
-         app_lang.remove(app_window.value(i.key()));
-        app_window.remove(i.key());
-     }
-
-    }
-}
