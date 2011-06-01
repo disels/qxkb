@@ -85,7 +85,7 @@ class QXKB : public QApplication
         void setLanguageMap(Window curent_window, int index);
         void checkLayoutChenge();
         void clearLangMap();
-        AnticoXKBconf* xkbconf;
+        QXKBconf* xkbconf;
         //QSvgRenderer *flagSVG;
         QString selectedString;
 

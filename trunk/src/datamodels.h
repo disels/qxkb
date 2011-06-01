@@ -99,19 +99,19 @@ class DstLayoutModel: public QAbstractTableModel
 Q_OBJECT
 
 public:
-    DstLayoutModel(RulesInfo* rules,XKBConf * antico,QString icoPath,QObject *parent): QAbstractTableModel(parent)
+    DstLayoutModel(RulesInfo* rules,XKBConf * qxkb,QString icoPath,QObject *parent): QAbstractTableModel(parent)
     {
       setRules(rules);
-      setConf(antico);
+      setConf(qxkb);
       iconDir=icoPath;
     }
     int columnCount(const QModelIndex& parent) const  { return !parent.isValid() ? DST_LAYOUT_COLUMN_COUNT : 0; }
-    int rowCount(const QModelIndex&) const { return  m_antico->layouts.size();}
+    int rowCount(const QModelIndex&) const { return  m_qxkb->layouts.size();}
     QVariant data(const QModelIndex& index, int role) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
 
     void setRules(RulesInfo* rules) { m_rules = rules; }
-    void setConf(XKBConf * antico) { m_antico= antico; }
+    void setConf(XKBConf * qxkb) { m_qxkb= qxkb; }
     void reset() { QAbstractTableModel::reset(); }
     void emitDataChange(int row, int col) { emit dataChanged(createIndex(row,col),createIndex(row,col)); }
     bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
@@ -119,7 +119,7 @@ public:
 
 private:
     RulesInfo* m_rules;
-    XKBConf *m_antico;
+    XKBConf *m_qxkb;
     QString iconDir;
 
 signals:

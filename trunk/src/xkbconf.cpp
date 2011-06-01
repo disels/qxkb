@@ -6,14 +6,14 @@
 
 #include "xkbconf.h"
 
-AnticoXKBconf::AnticoXKBconf(QWidget* parent) : QDialog(parent)
+QXKBconf::QXKBconf(QWidget* parent) : QDialog(parent)
 {
    xkb_conf.setupUi(this);
-   QSettings antico(QDir::homePath() + "/.config/qxkb.cfg", QSettings::IniFormat, this);
-   antico.beginGroup("Style");
-   theme=antico.value("path").toString();
+   QSettings qxkb(QDir::homePath() + "/.config/qxkb.cfg", QSettings::IniFormat, this);
+   qxkb.beginGroup("Style");
+   theme=qxkb.value("path").toString();
    ico_path = theme+"/language/";
-   antico.endGroup(); //Style
+   qxkb.endGroup(); //Style
    qDebug()<<"Theme " << theme;
    qDebug()<<"Icons " << ico_path;
    xkbConf = X11tools::loadXKBconf();
@@ -36,12 +36,12 @@ AnticoXKBconf::AnticoXKBconf(QWidget* parent) : QDialog(parent)
    xkbConf->lockKeys=true;
 }
 
-AnticoXKBconf::~AnticoXKBconf()
+QXKBconf::~QXKBconf()
 {
     delete xkbConf;
 }
 
-void AnticoXKBconf::apply()
+void QXKBconf::apply()
 {
       X11tools::saveXKBconf(xkbConf);
     if (xkb_conf.stackedWidget->currentIndex()==0)
@@ -62,7 +62,7 @@ void AnticoXKBconf::apply()
 
 }
 
-void AnticoXKBconf::statSelect(bool /*check*/)
+void QXKBconf::statSelect(bool /*check*/)
 {
     if (xkb_conf.radioButton->isChecked())
         xkbConf->status=2;
@@ -74,7 +74,7 @@ void AnticoXKBconf::statSelect(bool /*check*/)
     initXKBTab();
 }
 
-void AnticoXKBconf::initXKBTab()
+void QXKBconf::initXKBTab()
 {
 
     connect(xkb_conf.btnAdd,SIGNAL(clicked()),SLOT(addLayout()));
@@ -130,7 +130,7 @@ void AnticoXKBconf::initXKBTab()
 
 }
 
-bool AnticoXKBconf::setStat()
+bool QXKBconf::setStat()
 {
     switch (xkbConf->status )
     {
@@ -178,7 +178,7 @@ bool AnticoXKBconf::setStat()
     return false;
 }
 
-void AnticoXKBconf::setCmdLine()
+void QXKBconf::setCmdLine()
 {
    QString cmdLine="setxkbmap -model " + xkbConf->model;
     cmdLine +=" -layout ";
@@ -198,7 +198,7 @@ void AnticoXKBconf::setCmdLine()
     xkb_conf.editCmdLine->setText(cmdLine);
 }
 
-void AnticoXKBconf::addLayout()
+void QXKBconf::addLayout()
 {
     QItemSelectionModel* selectionModel = xkb_conf.srcTableView->selectionModel();
     if( selectionModel == NULL || !selectionModel->hasSelection()
@@ -219,7 +219,7 @@ void AnticoXKBconf::addLayout()
 
 }
 
-void AnticoXKBconf::delLayout()
+void QXKBconf::delLayout()
 {
     QItemSelectionModel* selectionModel = xkb_conf.dstTableView->selectionModel();
     if( selectionModel == NULL || !selectionModel->hasSelection()|| xkbConf->layouts.size() == 0 )
@@ -231,12 +231,12 @@ void AnticoXKBconf::delLayout()
     setCmdLine();
 }
 
-void AnticoXKBconf::srcClick(QModelIndex /*index*/)
+void QXKBconf::srcClick(QModelIndex /*index*/)
 {
     xkb_conf.btnAdd->setEnabled(true);
 }
 
-void AnticoXKBconf::dstClick()
+void QXKBconf::dstClick()
 {
 
     int row = getSelectedDstLayout();
@@ -259,7 +259,7 @@ void AnticoXKBconf::dstClick()
    qDebug()<<layout;
 
    variants = X11tools::getVariants(layout,X11tools::findX11Dir());
-   qDebug()<<"AnticoXKBconf:addItem ";
+   qDebug()<<"QXKBconf:addItem ";
 
    if (xkb_conf.comboVariant->count()==0)
     xkb_conf.comboVariant->addItem(tr("Default"),"Default");
@@ -286,7 +286,7 @@ void AnticoXKBconf::dstClick()
     }
 }
 
-bool AnticoXKBconf::load_rules()
+bool QXKBconf::load_rules()
 {
     QString x11dir = X11tools::findX11Dir();
     if ( x11dir.isNull() || x11dir.isEmpty())
@@ -302,13 +302,13 @@ bool AnticoXKBconf::load_rules()
 
 }
 
-void AnticoXKBconf::comboModelCh(int index)
+void QXKBconf::comboModelCh(int index)
 {
    xkbConf->model= curRule->models.key( xkb_conf.comboModel->itemText(index));
    setCmdLine();
 }
 
-void AnticoXKBconf::comboVariantCh(int index)
+void QXKBconf::comboVariantCh(int index)
 {
    if (0==index)
         xkbConf->layouts[getSelectedDstLayout()].variant="";
@@ -317,7 +317,7 @@ void AnticoXKBconf::comboVariantCh(int index)
    setCmdLine();
 }
 
-int AnticoXKBconf::getSelectedDstLayout()
+int QXKBconf::getSelectedDstLayout()
 {
     QItemSelectionModel* selectionModel = xkb_conf.dstTableView->selectionModel();
     if( selectionModel == NULL || !selectionModel->hasSelection() )
@@ -328,17 +328,17 @@ int AnticoXKBconf::getSelectedDstLayout()
     return row;
 }
 
-void AnticoXKBconf::setFlagUse()
+void QXKBconf::setFlagUse()
 {
     xkbConf->showFlag=xkb_conf.chkShowFlag->isChecked();
 }
 
-void AnticoXKBconf::setSinglShow()
+void QXKBconf::setSinglShow()
 {
     xkbConf->showSingle=xkb_conf.chkShowSingle->isChecked();
 }
 
-void AnticoXKBconf::layoutUp()
+void QXKBconf::layoutUp()
 {
      int row = getSelectedDstLayout();
     if (row>0)
@@ -352,7 +352,7 @@ void AnticoXKBconf::layoutUp()
         }
 }
 
-void AnticoXKBconf::layoutDown()
+void QXKBconf::layoutDown()
 {
     int row = getSelectedDstLayout();
     if (row<xkbConf->layouts.count()-1 && row>-1)
@@ -366,7 +366,7 @@ void AnticoXKBconf::layoutDown()
 
 }
 
-void AnticoXKBconf::updateOptionsCommand()
+void QXKBconf::updateOptionsCommand()
 {
 
    QString cmd = "setxkbmap";
@@ -381,32 +381,32 @@ void AnticoXKBconf::updateOptionsCommand()
     xkb_conf.editCmdLineOpt->setText(cmd);
 }
 
-void AnticoXKBconf::xkbOptionsChanged(const QModelIndex & /*topLeft*/, const QModelIndex & /*bottomRight*/)
+void QXKBconf::xkbOptionsChanged(const QModelIndex & /*topLeft*/, const QModelIndex & /*bottomRight*/)
 {
     updateOptionsCommand();
 
 }
 
-void AnticoXKBconf::closeEvent(QCloseEvent *event)
+void QXKBconf::closeEvent(QCloseEvent *event)
  {
      xkbConf->lockKeys=false;
      hide();
      event->ignore();
  }
 
-void AnticoXKBconf::xkbShortcutPressed()
+void QXKBconf::xkbShortcutPressed()
 {
     xkb_conf.stackedWidget->setCurrentIndex(2);
     xkbOptionsModel->gotoGroup("grp", xkb_conf.xkbOptionsTreeView);
 }
 
-void AnticoXKBconf::xkbShortcut3dPressed()
+void QXKBconf::xkbShortcut3dPressed()
 {
     xkb_conf.stackedWidget->setCurrentIndex(2);
     xkbOptionsModel->gotoGroup("lv3", xkb_conf.xkbOptionsTreeView);
 }
 
-void AnticoXKBconf::statSwitching(bool /*check*/)
+void QXKBconf::statSwitching(bool /*check*/)
 {
     if (xkb_conf.rdBtnSwitchGlobal->isChecked())
         xkbConf->switching=2;
@@ -417,7 +417,7 @@ void AnticoXKBconf::statSwitching(bool /*check*/)
   }
 
 
-void AnticoXKBconf::getHotKeys(XEvent *event)
+void QXKBconf::getHotKeys(XEvent *event)
 {
     XKeyEvent  *keys = (XKeyEvent *)event;
    switch (XKeycodeToKeysym(QX11Info::display(), keys->keycode, 0))
@@ -441,11 +441,11 @@ void AnticoXKBconf::getHotKeys(XEvent *event)
 
  }
 
-void AnticoXKBconf::clearHotKeys()
+void QXKBconf::clearHotKeys()
 {
-    qDebug()<<"AnticoXKBconf:: Kurrent mods "<<mods;
+    qDebug()<<"QXKBconf:: Kurrent mods "<<mods;
    if (mods.isEmpty()) return;
-      qDebug()<<"AnticoXKBconf:: Kurrent key "<<key;
+      qDebug()<<"QXKBconf:: Kurrent key "<<key;
    if (!key.isEmpty()) return;
    mods.clear();
   }

@@ -12,13 +12,13 @@
 #include "datamodels.h"
 #include "ui_kswconfig.h"
 
-class AnticoXKBconf : public QDialog
+class QXKBconf : public QDialog
 {
       Q_OBJECT
 public:
     Ui_Form xkb_conf;
-    AnticoXKBconf(QWidget* parent=0);
-    ~AnticoXKBconf();
+    QXKBconf(QWidget* parent=0);
+    ~QXKBconf();
     void getHotKeys(XEvent *event);
     void clearHotKeys();
 

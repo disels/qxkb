@@ -123,7 +123,7 @@ QVariant DstLayoutModel::data(const QModelIndex& index, int role) const
     int row = index.row();
     QHash<QString, QString> layouts = m_rules->layouts;
 
-    LayoutUnit lu = m_antico->layouts[row];
+    LayoutUnit lu = m_qxkb->layouts[row];
 
     if (role == Qt::TextAlignmentRole) {
         return int(Qt::AlignLeft | Qt::AlignVCenter);
@@ -164,7 +164,7 @@ Qt::ItemFlags DstLayoutModel::flags(const QModelIndex &index) const
 {
     Qt::ItemFlags defaultFlags = QAbstractTableModel::flags(index);
 
-    if ( m_antico->layouts.size() >= 4)
+    if ( m_qxkb->layouts.size() >= 4)
         return Qt::ItemIsDragEnabled | defaultFlags;
     return Qt::ItemIsDropEnabled | Qt::ItemIsDragEnabled | defaultFlags;
 };
