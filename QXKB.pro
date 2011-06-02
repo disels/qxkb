@@ -16,7 +16,7 @@ TRANSLATIONS = language/qxkb_ru.ts
 
 # version for C++ code too ************
 
-VERSION = 0.4.3-RC1
+VERSION = 0.4.3
 DEFINES += "QXKB_VERSION=\\\"$$VERSION\\\""
 
 # installs ****************************
