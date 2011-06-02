@@ -1,0 +1,16 @@
+AXKB this Qt application to adjust layouts by xkb. 
+Part of the code and interface window settings taken from KXKB and Kkbswitch.
+Completely absent on to the kde-libs. 
+Originally developed as a complement to the Antico DE. 
+But just as well work on other WM and DE. 
+Depends only on Qt and X-server
+
+***********************************
+Instalation
+in directory with source code do 
+
+qmake
+make 
+make install
+
+Write a AXKB in section automatically start in your WM or DE
