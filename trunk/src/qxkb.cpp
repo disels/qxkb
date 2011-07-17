@@ -198,11 +198,13 @@ void QXKB::draw_icon()
         exit();
     }
 
+    QString layout = xkbConf->layouts[currentGroup].layout;
+
    trayIcon->setContextMenu(contextMenu);
    connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayClicked(QSystemTrayIcon::ActivationReason)));
    trayIcon->setToolTip(groupeName[currentGroup]);
-   QString PNGfile = map_path +"/"+ rule->layouts.key(groupeName[currentGroup])+".png";
-   QString SVGfile = map_path +"/"+ rule->layouts.key(groupeName[currentGroup])+".svg";
+   QString PNGfile = map_path +"/"+ layout+".png";
+   QString SVGfile = map_path +"/"+ layout+".svg";
 
    bool havePNG =  QFile::exists(PNGfile );
    bool haveSVG =  QFile::exists( SVGfile);
@@ -231,7 +233,6 @@ void QXKB::draw_icon()
      }
      else
      {
-        QString layout=rule->layouts.key(groupeName[currentGroup]);
         QFont font("Helvetica [Cronyx]",15);
         font.setBold(true);
         font.setLetterSpacing(QFont::PercentageSpacing,120);
@@ -327,8 +328,8 @@ void QXKB::createMenu()
     for (int index=0;index<groupeName.size();index++)
        {
            QAction *act = new QAction(groupeName[index],this) ;
-           QString PNGfile = map_path + rule->layouts.key(groupeName[index])+".png";
-           QString SVGfile =map_path + rule->layouts.key(groupeName[index])+".svg";
+           QString PNGfile = map_path + xkbConf->layouts[index].layout+".png";
+           QString SVGfile = map_path + xkbConf->layouts[index].layout+".svg";
             bool havePNG =  QFile::exists(PNGfile );
             bool haveSVG =  QFile::exists( SVGfile);
 
