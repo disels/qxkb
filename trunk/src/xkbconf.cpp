@@ -316,7 +316,7 @@ void QXKBconf::comboVariantCh(int index)
 {
    if (0==index)
         xkbConf->layouts[getSelectedDstLayout()].variant="";
-   else
+   else if (index < variants.count()) // it sometimes crashed here with "index out of bounds"
         xkbConf->layouts[getSelectedDstLayout()].variant=variants.at(index-1).name;
    setCmdLine();
 }
