@@ -29,10 +29,11 @@ int main(int argc, char *argv[])
     qDebug() << "Locale:" << QLocale::system().name();
     QString lang = "qxkb_" + QLocale::system().name().split("_")[0];
     qDebug()<<"Language:"<<lang;
-    QString langPath=QLibraryInfo::location(QLibraryInfo::TranslationsPath);
+    QString langPath(QXKB_TRANSLATION_PATH);
+    qDebug()<<"Language path (trying):"<<langPath;
     if (!QFile::exists(langPath+"/"+lang+".qm"))
         langPath =  QCoreApplication::applicationDirPath() + "/language/";
-    qDebug()<<"Language path:"<<langPath;
+    qDebug()<<"Language path (fallback):"<<langPath;
     translator.load(lang,langPath);
     a.installTranslator(&translator);
     a.setStartup();
