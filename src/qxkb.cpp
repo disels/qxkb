@@ -389,6 +389,11 @@ void  QXKB::reconfigure()
     if (tmpGrName!=groupeName || newConf->layouts != xkbConf->layouts || newConf->showFlag != xkbConf->showFlag || newConf->showSingle != xkbConf->showSingle || newConf->status != xkbConf->status)
     {
         groupeName=tmpGrName;
+        /*! \todo This prevent crashing when I remove one language from the
+        destination list. QStringList then contains ("us", "cz", "") and the
+        empty string causes a crash. There should be bettre way how to fix it imho... */
+        groupeName.removeAll("");
+
         if (xkbConf)
         {
             delete xkbConf;
