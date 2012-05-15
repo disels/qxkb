@@ -14,3 +14,7 @@ make
 make install
 
 Write a AXKB in section automatically start in your WM or DE
+
+0.4.5
+ Fix ‘KeySym XKeycodeToKeysym(Display*, KeyCode, int)’ is deprecated (declared at /usr/include/X11/Xlib.h:1695
+ Cahnge XKeycodeToKeysym(Display*, KeyCode, int) to XkbKeycodeToKeysym(Display*, KeyCode, int)

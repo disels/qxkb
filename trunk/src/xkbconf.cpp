@@ -424,13 +424,13 @@ void QXKBconf::statSwitching(bool /*check*/)
 void QXKBconf::getHotKeys(XEvent *event)
 {
     XKeyEvent  *keys = (XKeyEvent *)event;
-   switch (XKeycodeToKeysym(QX11Info::display(), keys->keycode, 0))
+   switch (XkbKeycodeToKeysym(QX11Info::display(), keys->keycode,0,0))
     {
         case XK_Shift_L : case XK_Shift_R : mods = "Shift"; key.clear();  break;
         case XK_Control_L : case XK_Control_R : mods = "Ctrl"; key.clear();break;
         case XK_Alt_L : case XK_Alt_R : mods = "Alt"; key.clear(); break;
         default:
-         key = QString(XKeysymToString(XKeycodeToKeysym(QX11Info::display(), keys->keycode, 0)));
+         key = QString(XKeysymToString(XkbKeycodeToKeysym(QX11Info::display(), keys->keycode,0,0)));
          if (key.count()<2) key = key.toUpper();
 
    }
