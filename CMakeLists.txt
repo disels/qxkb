@@ -2,7 +2,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.6.0)
 
 project(qxkb)
 
-set(QXKB_VERSION 0.4.4)
+set(QXKB_VERSION 0.4.5)
 add_definitions(-DQXKB_VERSION="${QXKB_VERSION}")
 
 set(QXKB_TRANSLATION_PATH ${CMAKE_INSTALL_PREFIX}/share/qxkb/i18n)
@@ -59,10 +59,29 @@ set (QXKB_RESOURCES
 	qrc/icon.qrc
 )
 
-#set(QXKB_TRANSLATIONS
-#	language/qxkb_ru.ts
-#)
+set (QXKB_TRANSLATIONS
+        ../language/qxkb_ru.ts
+        ../language/qxkb_sr.ts
+)
 
+
+foreach (TRANSLATION ${QXKB_TRANSLATIONS})
+        set (TS ${TRANSLATION}.ts)
+        set (QM ${TRANSLATION}.qm)
+        set (TRANSLATIONS ${TRANSLATIONS} ${TS})
+        set (TRANSLATIONS_BINARY ${TRANSLATIONS_BINARY} ${QM})
+        add_custom_command (
+                OUTPUT ${QM}
+                COMMAND ${QT_LRELEASE_EXECUTABLE} ${TS}
+                MAIN_DEPENDENCY ${TS})
+endforeach()
+
+add_custom_target (
+        translations
+        COMMAND ${QT_LUPDATE_EXECUTABLE} ${QXKB_MOCS} ${QXKB_SOURCES} -ts ${QXKB_TRANSLATIONS})
+add_custom_command (
+        TARGET translations
+        COMMAND ${QT_LRELEASE_EXECUTABLE} ${QXKB_TRANSLATIONS})
 
 #QT4_ADD_TRANSLATION(QXKB_QM ${QXKB_TRANSLATIONS})
 QT4_WRAP_UI(QXKB_UI ${QXKB_FORMS})
