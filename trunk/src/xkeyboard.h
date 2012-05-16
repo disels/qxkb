@@ -39,7 +39,7 @@ public:
   /** Set the current keyboard group to the given groupno */
   void setGroupNo(int groupno);
   /** Get the names of the currently configured keyboard groups */
-  void getGroupNames(QStringList &list);
+  void getGroupNamesNumber();
   static XKeyboard* self();
   /** return the current keyboard group index */
  int getGroupNo();

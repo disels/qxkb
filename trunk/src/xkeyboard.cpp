@@ -77,34 +77,6 @@ extern "C" {
 }
 #endif
 
-/** Get the names of the currently configured keyboard groups */
-void XKeyboard::getGroupNames(QStringList &list){
-  XkbDescRec xkb;
-  Display *display = QX11Info::display();
-  char *names[XkbNumKbdGroups];
-
-  memset(&xkb, 0, sizeof(xkb));
-  xkb.device_spec = XkbUseCoreKbd;
-  XkbGetNames(display, XkbGroupNamesMask, &xkb);
-  memset(names, 0, sizeof(char *) * XkbNumKbdGroups);
-  // XGetAtomNames below may generate BadAtom error, which is not a problem.
-  // (it may happen if the name for a group was not defined)
-  // Thus we temporarily ignore X errors
-  XErrorHandler old_handler = XSetErrorHandler(IgnoreXError);
-  XGetAtomNames(display, xkb.names->groups, m_numgroups, names);
-  // resume normal X error processing
-  XSetErrorHandler(old_handler);
-  for (int i = 0; i < m_numgroups; i++) {
-    if (names[i]) {
-      list.append(names[i]);
-      XFree(names[i]);
-    }
-    else list.append(QString::null);
-  }
-  XkbFreeNames(&xkb, XkbGroupNamesMask, 1);
-
-}
-
 XKeyboard * XKeyboard::self()
 {
   return m_self;
