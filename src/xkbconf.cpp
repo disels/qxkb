@@ -76,6 +76,8 @@ void QXKBconf::statSelect(bool /*check*/)
     initXKBTab();
 }
 
+
+
 void QXKBconf::initXKBTab()
 {
 

@@ -325,9 +325,11 @@ void QXKB::createMenu()
 
     qDebug()<<"Avalible groups" << groupeName;
 
+    QHash<QString, QString> layouts = rule->layouts;
+
     for (int index=0;index<groupeName.size();index++)
        {
-           QAction *act = new QAction(groupeName[index],this) ;
+           QAction *act = new QAction(layouts.value(xkbConf->layouts[index].layout),this);
            QString PNGfile = map_path + xkbConf->layouts[index].layout+".png";
            QString SVGfile = map_path + xkbConf->layouts[index].layout+".svg";
             bool havePNG =  QFile::exists(PNGfile );
