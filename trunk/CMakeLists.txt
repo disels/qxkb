@@ -59,15 +59,17 @@ set (QXKB_RESOURCES
 	qrc/icon.qrc
 )
 
-set (QXKB_TRANSLATIONS
-        ../language/qxkb_ru.ts
-        ../language/qxkb_sr.ts
+set (LANGUAGES
+        qxkb_ru
+        qxkb_sr
 )
 
+set (TRANSLATIONS_PATH
+        ../language)
 
-foreach (TRANSLATION ${QXKB_TRANSLATIONS})
-        set (TS ${TRANSLATION}.ts)
-        set (QM ${TRANSLATION}.qm)
+foreach (LANGUAGE ${LANGUAGES})
+        set (TS ${TRANSLATIONS_PATH}/${LANGUAGE}.ts)
+        set (QM ${TRANSLATIONS_PATH}/${LANGUAGE}.qm)
         set (TRANSLATIONS ${TRANSLATIONS} ${TS})
         set (TRANSLATIONS_BINARY ${TRANSLATIONS_BINARY} ${QM})
         add_custom_command (
@@ -75,22 +77,21 @@ foreach (TRANSLATION ${QXKB_TRANSLATIONS})
                 COMMAND ${QT_LRELEASE_EXECUTABLE} ${TS}
                 MAIN_DEPENDENCY ${TS})
 endforeach()
-
 add_custom_target (
         translations
-        COMMAND ${QT_LUPDATE_EXECUTABLE} ${QXKB_MOCS} ${QXKB_SOURCES} -ts ${QXKB_TRANSLATIONS})
+        COMMAND ${QT_LUPDATE_EXECUTABLE} ${HEADERS} ${SOURCES} -ts ${TRANSLATIONS})
 add_custom_command (
         TARGET translations
-        COMMAND ${QT_LRELEASE_EXECUTABLE} ${QXKB_TRANSLATIONS})
+        COMMAND ${QT_LRELEASE_EXECUTABLE} ${TRANSLATIONS})
 
-#QT4_ADD_TRANSLATION(QXKB_QM ${QXKB_TRANSLATIONS})
+
 QT4_WRAP_UI(QXKB_UI ${QXKB_FORMS})
 QT4_WRAP_CPP(QXKB_MOC_SRC ${QXKB_MOCS})
 QT4_ADD_RESOURCES(QXKB_RCC ${QXKB_RESOURCES})
 
 
 set(EXE_NAME ${CMAKE_PROJECT_NAME})
-add_executable(${EXE_NAME} ${QXKB_SOURCES} ${QXKB_UI} ${QXKB_MOC_SRC} ${QXKB_RCC})
+add_executable(${EXE_NAME} ${QXKB_SOURCES} ${QXKB_UI} ${QXKB_MOC_SRC} ${QXKB_RCC} ${TRANSLATIONS})
 target_link_libraries(${EXE_NAME} ${QT_LIBRARIES} ${X11_X11_LIB} xkbfile)
 
 
