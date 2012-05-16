@@ -79,7 +79,7 @@ foreach (LANGUAGE ${LANGUAGES})
 endforeach()
 add_custom_target (
         translations
-        COMMAND ${QT_LUPDATE_EXECUTABLE} ${HEADERS} ${SOURCES} -ts ${TRANSLATIONS})
+        COMMAND ${QT_LUPDATE_EXECUTABLE} ${HEADERS} ${SOURCES} ${FORMS} -ts ${TRANSLATIONS})
 add_custom_command (
         TARGET translations
         COMMAND ${QT_LRELEASE_EXECUTABLE} ${TRANSLATIONS})
