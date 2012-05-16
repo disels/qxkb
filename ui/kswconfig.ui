@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Antico XKB</string>
+   <string>Qt XKB</string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
@@ -178,7 +178,7 @@
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
               </property>
-              <widget class="QWidget" name="">
+              <widget class="QWidget" name="layoutWidget">
                <layout class="QVBoxLayout" name="verticalLayout_5">
                 <item>
                  <layout class="QHBoxLayout" name="_4">
@@ -231,7 +231,7 @@
                 </item>
                </layout>
               </widget>
-              <widget class="QWidget" name="">
+              <widget class="QWidget" name="layoutWidget">
                <layout class="QVBoxLayout" name="verticalLayout_7">
                 <item>
                  <layout class="QHBoxLayout" name="_5">

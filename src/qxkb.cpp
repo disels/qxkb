@@ -160,11 +160,16 @@ void QXKB::init()
        if (xkbConf->status==DONT_USE_XKB)
            return;
 
-       keys->getGroupNames(groupeName);
+       int size = keys->getNumKbdGroups();
+       QHash<QString, QString> layouts = rule->layouts;
+       for(int i=0;i<xkbConf->layouts.size();i++)
+       {
+           groupeName.insert(i,layouts.value(xkbConf->layouts[i].layout));
+       }
        currentGroup = keys->getGroupNo();
-       if (currentGroup<groupeName.size()-1)
+       if (currentGroup<size-1)
        nextGroupe = currentGroup+1;
-       else if (currentGroup == groupeName.size()-1)
+       else if (currentGroup == size-1)
            nextGroupe = 0;
        clipboard=  QApplication::clipboard();
        connect(clipboard,SIGNAL(selectionChanged()),SLOT(showClipboard()));
@@ -325,11 +330,11 @@ void QXKB::createMenu()
 
     qDebug()<<"Avalible groups" << groupeName;
 
-    QHash<QString, QString> layouts = rule->layouts;
+
 
     for (int index=0;index<groupeName.size();index++)
        {
-           QAction *act = new QAction(layouts.value(xkbConf->layouts[index].layout),this);
+        QAction *act = new QAction(groupeName[index],this);
            QString PNGfile = map_path + xkbConf->layouts[index].layout+".png";
            QString SVGfile = map_path + xkbConf->layouts[index].layout+".svg";
             bool havePNG =  QFile::exists(PNGfile );
@@ -385,7 +390,14 @@ void QXKB::createMenu()
 void  QXKB::reconfigure()
 {
     QStringList tmpGrName;
-    keys->getGroupNames(tmpGrName);
+    int size = keys->getNumKbdGroups();
+    QHash<QString, QString> layouts = rule->layouts;
+    for(int i=0;i<xkbConf->layouts.size();i++)
+    {
+        tmpGrName.insert(i,layouts.value(xkbConf->layouts[i].layout));
+    }
+    //keys->getGroupNames(tmpGrName);
+
 
     XKBConf* newConf = X11tools::loadXKBconf();
     if (tmpGrName!=groupeName || newConf->layouts != xkbConf->layouts || newConf->showFlag != xkbConf->showFlag || newConf->showSingle != xkbConf->showSingle || newConf->status != xkbConf->status)
