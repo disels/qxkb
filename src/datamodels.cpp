@@ -28,30 +28,11 @@ QVariant SrcLayoutModel::data(const QModelIndex& index, int role) const
     int row = index.row();
     QHash<QString, QString> layouts = m_rules->layouts;
     QString layout = m_layoutKeys[row];
-
-    QSvgRenderer *flagSVG ;
     QIcon icons;
-
     QString PNG = iconDir+"/"+layout+".png";
-    QString SVG = iconDir+"/"+layout+".svg";
     bool isPNG = QFile::exists(PNG);
-    bool isSVG = QFile::exists(SVG);
 
-    if (isSVG)
-    {
-      flagSVG = new QSvgRenderer(SVG,NULL);
-      isSVG = isSVG && flagSVG->isValid();
-    }
-    if (isSVG)
-    {
-        QPixmap pix(48,22);
-        QPainter *painter =new QPainter();
-        painter->begin(&pix);
-        flagSVG->render(painter,QRectF(0,0,48,22));
-        painter->end();
-        icons = (QIcon(pix));
-    }
-    else if (isPNG)
+    if (isPNG)
           icons = QIcon(PNG);
 
     if (role == Qt::TextAlignmentRole) {

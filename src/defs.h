@@ -73,7 +73,7 @@
 #include <QSystemTrayIcon>
 #include <QThread>
 #include <QKeySequence>
-#include <QSvgRenderer>
+//#include <QSvgRenderer>
 
 #include <X11/X.h>
 #include <X11/Xlib.h>

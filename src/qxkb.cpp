@@ -209,32 +209,12 @@ void QXKB::draw_icon()
    connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayClicked(QSystemTrayIcon::ActivationReason)));
    trayIcon->setToolTip(groupeName[currentGroup]);
    QString PNGfile = map_path +"/"+ layout+".png";
-   QString SVGfile = map_path +"/"+ layout+".svg";
 
    bool havePNG =  QFile::exists(PNGfile );
-   bool haveSVG =  QFile::exists( SVGfile);
-    QSvgRenderer flagSVG(SVGfile);
 
-   if (haveSVG)
-   {
-     haveSVG = haveSVG && flagSVG.isValid();
-   }
-
-    if (xkbConf->showFlag && (havePNG || haveSVG ))
+    if (xkbConf->showFlag && havePNG)
      {
-        if (haveSVG)
-        {
-            QPixmap pix(32,22);
-            QPainter painter;
-            painter.begin(&pix);
-            flagSVG.render(&painter,QRectF(0,0,32,22));
-            painter.end();
-            trayIcon-> setIcon(QIcon(pix));
-        }
-        else if (havePNG)
-          trayIcon-> setIcon(QIcon(PNGfile));
-
-
+        trayIcon-> setIcon(QIcon(PNGfile));
      }
      else
      {
@@ -336,28 +316,8 @@ void QXKB::createMenu()
        {
         QAction *act = new QAction(groupeName[index],this);
            QString PNGfile = map_path + xkbConf->layouts[index].layout+".png";
-           QString SVGfile = map_path + xkbConf->layouts[index].layout+".svg";
             bool havePNG =  QFile::exists(PNGfile );
-            bool haveSVG =  QFile::exists( SVGfile);
-
-            if (haveSVG)
-            {
-                QSvgRenderer flagSVG(SVGfile);
-                if ( haveSVG && flagSVG.isValid() )
-                {
-                    QPixmap pix(32,22);
-                    QPainter painter;
-                     painter.begin(&pix);
-                     flagSVG.render(&painter,QRectF(0,0,32,22));
-                     painter.end();
-                    act->setIcon(QIcon(pix));
-                }
-                else
-                    act->setIcon(QIcon(PNGfile));
-            }
-            else if (havePNG)
-                act->setIcon(QIcon(PNGfile));
-
+            act->setIcon(QIcon(PNGfile));
             act->setData(groupeName[index]);
         contextMenu->addAction(act);
         }
