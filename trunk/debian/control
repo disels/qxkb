@@ -1,0 +1,17 @@
+Source: qxkb
+Maintainer: Fedor chelbarakh <disels@gmail.com>
+Section: misc
+Priority: optional
+Standards-Version: 0.4.5
+Build-Depends: debhelper (>= 7.0.50~), pkg-config,
+    cmake,
+    libqt4-dev (>= 4.6.0),
+    libxkbfile-dev,
+    x11proto-core-dev,
+    
+
+Package: qxkb
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description:  The further development of the project axkb. In connection with project closure antico, it has been decided to rename the project and to develop separately as separate application. Outwardly repeats kxkb.
+ hithere greets the user, or the world.
