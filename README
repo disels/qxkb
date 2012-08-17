@@ -9,9 +9,11 @@ Depends only on Qt and X-server
 Instalation
 in directory with source code do 
 
-qmake
+mkdir build 
+cd build 
+cmake ..
 make 
-make install
+
 
 Write a AXKB in section automatically start in your WM or DE
 
