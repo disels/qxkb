@@ -1,0 +1,28 @@
+This package was debianized by:
+
+Fedor Chelbarakh <disels@gmail.com>
+
+It was downloaded from:
+
+    http://code.google.com/p/qxkb/
+
+Upstream Author:
+
+    Fedor Chelbarakh <disels@gmail.com> : http://code.google.com/p/qxkb/
+    Petr Vanek <yarpencz@gmail.com> : http://code.google.com/p/qxkb/
+
+Copyright:
+
+    Copyright (C) 2010-2012 Fedor Chelbarakh
+
+License: GPL-2 and LGPL-2.1+
+ On Debian systems the full text of the GNU Library General Public License can
+ be found in the '/usr/share/common-licenses/GPL-2' and
+ '/usr/share/common-licenses/LGPL-2.1' files.
+
+The Debian packaging is:
+
+    Copyright (C) 2010-2012  <>
+
+and is licensed under the GPL version 2, see above.
+
