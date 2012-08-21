@@ -8,6 +8,9 @@ add_definitions(-DQXKB_VERSION="${QXKB_VERSION}")
 set(QXKB_TRANSLATION_PATH ${CMAKE_INSTALL_PREFIX}/share/qxkb/i18n)
 add_definitions(-DQXKB_TRANSLATION_PATH="${QXKB_TRANSLATION_PATH}")
 
+set(QXKB_PID_PATH /tmp)
+add_definitions(-DQXKB_PID_PATH="${QXKB_PID_PATH}")
+
 
 # find the Qt
 set(QT_MIN_VERSION "4.6.0")
