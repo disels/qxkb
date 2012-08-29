@@ -598,16 +598,50 @@ Window X11tools::getActiveWindowId()
     return focus_return;
 }
 
+
+
+QHash<Window,QString> X11tools::getWindowsList()
+{
+    QHash<Window,QString> res;
+    Display* dpy;
+    Window root;
+    Window *list;
+    dpy = QX11Info::display();
+    root = XDefaultRootWindow(dpy);
+
+    Atom prop = XInternAtom(dpy,"_NET_CLIENT_LIST",False), type;
+    int form;
+    unsigned long len;
+    unsigned long remain;
+
+
+     if (XGetWindowProperty(dpy,root,prop,0,1024,False,XA_WINDOW, &type,&form,&len,&remain,(unsigned char **) &list) != Success) {
+           qDebug()<<"winlist() -- GetWinProp";
+           return res;
+       }
+
+     for (long  i=0;i<(int)len;i++) {
+             res.insert(list[i],getActiveWindowAppName(list[i]));
+         }
+    return res;
+
+}
+
+
+
 QString X11tools::getActiveWindowAppName(Window windowsId)
 {
-    char *window_name_return;
-    XFetchName(QX11Info::display(), windowsId, &window_name_return);
-    QString win_name = QString(window_name_return);
-    XFree(window_name_return);
-   QStringList tmp = win_name.split("-");
-   if (tmp.count()>1) win_name= tmp[tmp.count()-1];
-   tmp = win_name.split(":");
-   if (tmp.count()>1) win_name= tmp[tmp.count()-1];
+
+    Atom prop = XInternAtom(QX11Info::display(),"WM_CLASS",False), type;
+        int form;
+        unsigned long remain, len;
+        unsigned char *list;
+
+        if (XGetWindowProperty(QX11Info::display(),windowsId,prop,0,1024,False,XA_STRING, &type,&form,&len,&remain,&list) != Success) {
+             qDebug()<<"winlist() -- GetWinProp";
+            return NULL;
+        }
+   QString win_name = QString((char*)list);
    if (win_name.isEmpty() || win_name.isNull())  win_name="NONE";
    win_name.trimmed();
    return win_name;

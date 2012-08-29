@@ -18,6 +18,7 @@ QXKB::QXKB(int &argc, char **argv) : QApplication(argc, argv),
     keys = new XKeyboard ();
     set_event_names();
     setWindowIcon(QIcon(":/about/qxkb.png"));
+    XSelectInput(QX11Info::display(), DefaultRootWindow(QX11Info::display()), SubstructureNotifyMask);
 }
 
 
@@ -90,6 +91,7 @@ void QXKB::setStartup()
         {
             createMenu();
             draw_icon();
+            XSelectInput(QX11Info::display(), DefaultRootWindow(QX11Info::display()), SubstructureNotifyMask);
 
         }
         else
@@ -148,7 +150,13 @@ bool QXKB::x11EventFilter(XEvent *event)
     {
 
         default:
+            //qDebug()<<"Get event: "<<event->type;
+            //qDebug()<<"Get window: "<<event->xany.window;
+            updateAppsLanglist();
+            active_wm=X11tools::getActiveWindowId();
+            active_app=X11tools::getActiveWindowAppName(active_wm);
             keys->processEvent(event);
+
            return false;
     }
    return false;
@@ -488,3 +496,68 @@ bool QXKB::load_rules()
 
 }
 
+void QXKB::updateAppsLanglist()
+{
+    win_to_app= X11tools::getWindowsList();
+    QHash<QString,int > app_lang_old;
+    QHash<Window,int > win_lang_old;
+    app_lang_old = app_lang;
+    win_lang_old = win_lang;
+
+    //qDebug()<<"Windows list: ";
+    for (int i=0;i<win_to_app.count();i++)
+    {
+        if (app_lang_old.contains(win_to_app.values()[i]))
+        {
+            if(!app_lang.contains(win_to_app.values()[i]))
+            {
+                app_lang.insert(win_to_app.values()[i],app_lang_old.value(win_to_app.values()[i]));
+            }
+
+        }
+        else
+        {
+            app_lang.insert(win_to_app.values()[i],currentGroup);
+        }
+
+        if (win_lang_old.contains(win_to_app.keys()[i]))
+        {
+            win_lang.insert(win_to_app.keys()[i],win_lang.value(win_to_app.keys()[i]));
+
+        }
+        else
+        {
+            win_lang.insert(win_to_app.keys()[i],currentGroup);
+        }
+        //qDebug()<<list.keys()[i]<<" : " << list.values()[i];
+
+    }
+}
+
+
+void QXKB::cheklanguage()
+{
+    Window current_wm;
+    QString current_app;
+    current_wm=X11tools::getActiveWindowId();
+    current_app=X11tools::getActiveWindowAppName(current_wm);
+        switch (xkbConf->switching)
+        {
+            case GLOBAL_LAYOUT:break;
+            case DESK_LAYOUT: break;
+            case APP_LAYOUT:
+                if( active_app!=current_app)
+                {
+                    keys->setGroupNo(app_lang.value(current_app));
+                }
+            break;
+            case WIN_LAYOUT:
+                if( active_wm!=current_wm)
+                {
+                    keys->setGroupNo(win_lang.value(current_wm));
+                }
+
+                break;
+        }
+
+}

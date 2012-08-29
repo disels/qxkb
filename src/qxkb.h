@@ -54,12 +54,19 @@ class QXKB : public QApplication
         void createMenu();
         bool load_rules();
         int getLayoutNumber();
+        void updateAppsLanglist();
+        void cheklanguage();
 
 
+        Window active_wm;
+        QString active_app;
         QHash<int, QString> stat_names; // qxkb stats names
         QHash<int, QString> event_names; // event names
-        QHash<Window,int> window_lang;
-        QHash<Window,QString> app_window;
+        QHash<QString,int > app_lang; // application language
+        QHash<Window,int > win_lang; // window language
+        QHash<Window,QString > win_to_app;
+        //QHash<Window,int> window_lang;
+        //QHash<Window,QString> app_window;
         Window active_window;
         int nextGroupe;
         int currentGroup;

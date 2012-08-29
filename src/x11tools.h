@@ -24,8 +24,9 @@ enum {
 
 enum {
     GLOBAL_LAYOUT = 0,
-    APP_LAYOUT = 1,
-    WIN_LAYOUT = 2,
+    DESK_LAYOUT=1,
+    APP_LAYOUT = 2,
+    WIN_LAYOUT = 3,
 
 };
 
@@ -157,6 +158,7 @@ public:
         static KeySym unicodeToKeysys(QChar symbol);
         static Window getActiveWindowId();
         static QString getActiveWindowAppName(Window windowsId);
+        static QHash<Window,QString> getWindowsList();
 private:
 
         static XkbOptionGroup createMissingGroup(const QString& groupName);
