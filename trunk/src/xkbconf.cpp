@@ -25,6 +25,12 @@ QXKBconf::QXKBconf(QWidget* parent) : QDialog(parent)
    connect(xkb_conf.radioButton,SIGNAL(clicked(bool)),SLOT(statSelect(bool)));
    connect(xkb_conf.radioButton_2,SIGNAL(clicked(bool)),SLOT(statSelect(bool)));
    connect(xkb_conf.radioButton_3,SIGNAL(clicked(bool)),SLOT(statSelect(bool)));
+
+   connect(xkb_conf.rdBtnSwitchGlobal,SIGNAL(clicked(bool)),SLOT(switchSelect(bool)));
+   connect(xkb_conf.rdBtnSwitchPerDesktop,SIGNAL(clicked(bool)),SLOT(switchSelect(bool)));
+   connect(xkb_conf.rdBtnSwitchPerApp,SIGNAL(clicked(bool)),SLOT(switchSelect(bool)));
+   connect(xkb_conf.rdBtnSwitchPerWin,SIGNAL(clicked(bool)),SLOT(switchSelect(bool)));
+
    xkb_conf.btnAdd->setEnabled(false);
    xkb_conf.btnRemove->setEnabled(false);
    xkb_conf.btnUp->setEnabled(false);
@@ -72,8 +78,23 @@ void QXKBconf::statSelect(bool /*check*/)
         xkbConf->status=1;
     if (xkb_conf.radioButton_3->isChecked())
         xkbConf->status=0;
+
     if (!setStat()) return;
     initXKBTab();
+}
+
+
+
+void QXKBconf::switchSelect(bool /*check*/)
+{
+    if (xkb_conf.rdBtnSwitchGlobal->isChecked())
+        xkbConf->switching=GLOBAL_LAYOUT;
+    if (xkb_conf.rdBtnSwitchPerDesktop->isChecked())
+        xkbConf->switching=DESK_LAYOUT;
+    if (xkb_conf.rdBtnSwitchPerApp->isChecked())
+        xkbConf->switching=APP_LAYOUT;
+    if (xkb_conf.rdBtnSwitchPerWin->isChecked())
+        xkbConf->switching=WIN_LAYOUT;
 }
 
 

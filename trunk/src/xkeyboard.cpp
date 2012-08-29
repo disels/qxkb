@@ -23,6 +23,7 @@ XKeyboard *XKeyboard::m_self = 0;
 XKeyboard::XKeyboard()
 {
   Display *display = QX11Info::display();
+  XSelectInput(display, DefaultRootWindow(display), SubstructureNotifyMask);
   int opcode, errorBase, major = XkbMajorVersion, minor = XkbMinorVersion;
 
   // check the library version
@@ -58,6 +59,7 @@ XKeyboard::XKeyboard()
     retrieveNumKbdGroups();
   }
   m_self = this;
+
 }
 
 XKeyboard::~XKeyboard(){
@@ -121,11 +123,9 @@ void XKeyboard::processEvent(XEvent *ev) {
       || (xkb_ev->any.xkb_type == XkbNewKeyboardNotify)) {
       // keyboard layout has changed
       retrieveNumKbdGroups();
-      emit layoutChanged();
+      emit layoutChanged();      
     }
+
    }
-
-
-
 }
 

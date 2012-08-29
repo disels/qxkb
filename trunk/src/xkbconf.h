@@ -46,6 +46,7 @@ public:
     void xkbShortcutPressed();
     void xkbShortcut3dPressed();
     void statSwitching(bool chek);
+    void switchSelect(bool chek);
 
 private:
     QString theme;
