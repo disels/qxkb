@@ -7,6 +7,7 @@
 #ifndef DEFS_H
 #define DEFS_H
 
+#include <QMainWindow>
 #include <QApplication>
 #include <QPushButton>
 #include <QMap>

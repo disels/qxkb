@@ -14,13 +14,24 @@ QXKB::QXKB(int &argc, char **argv) : QApplication(argc, argv),
 {
     // mandatory to keep it running after closing about dialogs...
     setQuitOnLastWindowClosed(false);
-
     keys = new XKeyboard ();
     set_event_names();
     setWindowIcon(QIcon(":/about/qxkb.png"));
-    XSelectInput(QX11Info::display(), DefaultRootWindow(QX11Info::display()), SubstructureNotifyMask);
+
 }
 
+void QXKB::x11Hook()
+{
+  Display	    *_display;
+  Screen      *_screen;
+  Window      _window;
+  int G_event;
+  _display=QX11Info::display();
+  _screen  = XDefaultScreenOfDisplay(_display);
+  G_event=ExposureMask|SubstructureNotifyMask|LeaveWindowMask|EnterWindowMask|FocusChangeMask;
+
+  XSelectInput(_display, _window,G_event);
+}
 
 void QXKB::set_event_names()
 {
@@ -70,7 +81,6 @@ void QXKB::setStartup()
     // Display the config dialog only on first run.
     // It was really annoying to see it all time
     bool first = firstStart();
-
     QSettings qxkb(QDir::homePath() + "/.config/qxkb.cfg", QSettings::IniFormat, this);
     qxkb.beginGroup("Style");
     map_path = qxkb.value("path").toString()+"/language/";
@@ -91,8 +101,6 @@ void QXKB::setStartup()
         {
             createMenu();
             draw_icon();
-            XSelectInput(QX11Info::display(), DefaultRootWindow(QX11Info::display()), SubstructureNotifyMask);
-
         }
         else
         {
@@ -106,6 +114,7 @@ void QXKB::setStartup()
     //    if (first) show the cfg dialog whenthere is no tray icon
             configure();
     }
+
 }
 
 QXKB::~QXKB()
@@ -144,17 +153,17 @@ bool QXKB::firstStart()
     return false;
 }
 
+
 bool QXKB::x11EventFilter(XEvent *event)
 {
     switch (((XKeyEvent *)event)->type)
     {
 
         default:
-            //qDebug()<<"Get event: "<<event->type;
+           // qDebug()<<"Get event: "<<event_names.value(event->type);
             //qDebug()<<"Get window: "<<event->xany.window;
-            updateAppsLanglist();
-            active_wm=X11tools::getActiveWindowId();
-            active_app=X11tools::getActiveWindowAppName(active_wm);
+            //updateAppsLanglist();
+            //cheklanguage();
             keys->processEvent(event);
 
            return false;
@@ -164,7 +173,7 @@ bool QXKB::x11EventFilter(XEvent *event)
 
 void QXKB::init()
 {
-       groupeName.clear();
+        groupeName.clear();
        if (xkbConf->status==DONT_USE_XKB)
            return;
 
@@ -180,7 +189,10 @@ void QXKB::init()
        else if (currentGroup == size-1)
            nextGroupe = 0;
        clipboard=  QApplication::clipboard();
-       connect(clipboard,SIGNAL(selectionChanged()),SLOT(showClipboard()));
+       QxtGlobalShortcut* shortcut = new QxtGlobalShortcut(this);
+       connect(shortcut, SIGNAL(activated()), this, SLOT(showClipboard()));
+       qDebug()<<"Register shotcut"<<shortcut->setShortcut(QKeySequence("Ctrl+Shift+F12"));
+       //connect(clipboard,SIGNAL(selectionChanged()),SLOT(showClipboard()));
        connect(keys,SIGNAL(groupChanged(int)),this,SLOT(groupChange(int)));
        connect(keys,SIGNAL(layoutChanged()),this,SLOT(layoutChange()));
  }
@@ -203,6 +215,8 @@ void QXKB::showClipboard()
 
 void QXKB::draw_icon()
 {
+
+
     if (groupeName.count()==0)
         return;
     if (xkbConf->status==DONT_USE_XKB)
@@ -245,6 +259,7 @@ void QXKB::draw_icon()
     }
 
     trayIcon->show();
+
 }
 
 void QXKB::trayClicked(QSystemTrayIcon::ActivationReason reason)
@@ -504,7 +519,6 @@ void QXKB::updateAppsLanglist()
     app_lang_old = app_lang;
     win_lang_old = win_lang;
 
-    //qDebug()<<"Windows list: ";
     for (int i=0;i<win_to_app.count();i++)
     {
         if (app_lang_old.contains(win_to_app.values()[i]))
@@ -541,6 +555,8 @@ void QXKB::cheklanguage()
     QString current_app;
     current_wm=X11tools::getActiveWindowId();
     current_app=X11tools::getActiveWindowAppName(current_wm);
+    qDebug()<<"Active Window: " << current_wm;
+    qDebug()<<"Active Apps: " << current_app;
         switch (xkbConf->switching)
         {
             case GLOBAL_LAYOUT:break;

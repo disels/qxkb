@@ -13,7 +13,7 @@
 #include "x11tools.h"
 #include "xkbconf.h"
 #include "convert.h"
-
+#include "qxtglobalshortcut.h"
 
 
 class QXKB : public QApplication
@@ -24,6 +24,7 @@ class QXKB : public QApplication
    protected:
     virtual bool x11EventFilter(XEvent *);
 
+
    public:
         QXKB(int &argc, char **argv);
         ~QXKB();
@@ -31,6 +32,7 @@ class QXKB : public QApplication
         bool firstStart();
         void setStartup();
         void set_event_names();
+        void x11Hook();
     public slots:
         void groupChange(int index);
         void layoutChange();
@@ -56,7 +58,6 @@ class QXKB : public QApplication
         int getLayoutNumber();
         void updateAppsLanglist();
         void cheklanguage();
-
 
         Window active_wm;
         QString active_app;
