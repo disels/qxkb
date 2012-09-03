@@ -129,5 +129,6 @@ int main(int argc, char *argv[])
         qDebug()<<"One copy of qxkb run in current user session";
         return 0;
     }
+    a.x11Hook();
     return a.exec();
 }
