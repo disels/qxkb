@@ -1,0 +1,22 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+Exec=qxkb
+Terminal=false
+Categories=Application;Qt;Utility;
+Icon=qxkb
+Name=QXKB
+Name[sr]=КјуИксКБ
+Name[sr@ijekavian]=КјуИксКБ
+Comment=Qt4-X11 Keyboard  switcher
+Comment[ru]= Переключатель раскладки на Qt4
+Comment[sr]=Кјут4-Икс11 пребацивач распореда тастатуре
+Comment[sr@ijekavian]=Кјут4-Икс11 пребацивач распореда тастатуре
+Comment[sr@ijekavianlatin]=Qt4-X11 prebacivač rasporeda tastature
+Comment[sr@latin]=Qt4-X11 prebacivač rasporeda tastature
+GenericName=Keyboard  switcher
+GenericName[ru]=Переключатель раскладки
+GenericName[sr]=Распоред тастатуре
+GenericName[sr@ijekavian]=Распоред тастатуре
+GenericName[sr@ijekavianlatin]=Raspored tastature
+GenericName[sr@latin]=Raspored tastature
