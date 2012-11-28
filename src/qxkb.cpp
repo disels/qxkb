@@ -331,7 +331,7 @@ void QXKB::createMenu()
     else
         contextMenu->clear();
 
-    qDebug()<<"Avalible groups" << groupeName;
+    qDebug()<<"Available groups" << groupeName;
 
 
 

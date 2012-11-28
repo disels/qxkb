@@ -139,7 +139,7 @@ void Keyswitch::createMenu()
 {
     qDebug()<<"Create menu" << groupeName;
     contextMenu = new QMenu(this);
-    qDebug()<<"Avalible groups" << groupeName;
+    qDebug()<<"Available groups" << groupeName;
     for (int index=0;index<groupeName.size();index++)
        {
         QAction *act = new QAction(groupeName[index],this) ;
