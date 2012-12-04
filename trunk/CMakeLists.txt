@@ -29,42 +29,42 @@ endif()
 
 
 include_directories(
-	${QT_INCLUDES}
-	${X11_Xkblib_INCLUDE_PATH}
-	${CMAKE_CURRENT_BINARY_DIR}
-	${CMAKE_CURRENT_SOURCE_DIR}/src
+${QT_INCLUDES}
+${X11_Xkblib_INCLUDE_PATH}
+${CMAKE_CURRENT_BINARY_DIR}
+${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
 
 set (QXKB_SOURCES
-	src/qxkb.cpp
-	src/xkeyboard.cpp
-	src/xkbconf.cpp
-	src/x11tools.cpp
-	src/main.cpp
-	src/datamodels.cpp
+src/qxkb.cpp
+src/xkeyboard.cpp
+src/xkbconf.cpp
+src/x11tools.cpp
+src/main.cpp
+src/datamodels.cpp
         src/qxtglobalshortcut_x11.cpp
         src/qxtglobalshortcut.cpp
 )
 
 set (QXKB_MOCS
-	src/qxkb.h
-	src/xkeyboard.h
-	src/xkbconf.h
-#	src/x11tools.h
-	src/datamodels.h
-#	src/defs.h
+src/qxkb.h
+src/xkeyboard.h
+src/xkbconf.h
+#src/x11tools.h
+src/datamodels.h
+#src/defs.h
         src/qxtglobal.h
         src/qxtglobalshortcut.h
         src/qxtglobalshortcut_p.h
 )
 
 set (QXKB_FORMS
-	ui/kswconfig.ui
+ui/kswconfig.ui
 )
 
 set (QXKB_RESOURCES
-	qrc/icon.qrc
+qrc/icon.qrc
 )
 
 set (LANGUAGES
@@ -108,8 +108,8 @@ target_link_libraries(${EXE_NAME} ${QT_LIBRARIES} ${X11_X11_LIB} xkbfile)
 install(TARGETS ${EXE_NAME} RUNTIME DESTINATION bin LIBRARY DESTINATION lib${LIB_SUFFIX})
 #  translations (qm)
 install(DIRECTORY language/ DESTINATION ${QXKB_TRANSLATION_PATH}
-	FILES_MATCHING PATTERN "*.qm"
-	PATTERN ".svn" EXCLUDE)
+FILES_MATCHING PATTERN "*.qm"
+PATTERN ".svn" EXCLUDE)
 #  themes
 install(DIRECTORY theme/ DESTINATION share/qxkb/theme PATTERN ".svn" EXCLUDE)
 #  desktop file
@@ -129,4 +129,3 @@ SET(CPACK_SOURCE_IGNORE_FILES ${CPACK_IGNORE_FILES})
 INCLUDE(CPack)
 # simulate autotools' "make dist"
 add_custom_target(dist COMMAND ${CMAKE_MAKE_PROGRAM} package_source)
-
