@@ -6,14 +6,14 @@
 
 class qxkbXwindow : public QObject
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    explicit qxkbXwindow(QObject *parent = 0);
-    
+	explicit qxkbXwindow(QObject *parent = 0);
+
 signals:
-    
+
 public slots:
-    
+
 };
 
 #endif // QXKBXWINDOW_H
