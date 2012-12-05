@@ -541,7 +541,7 @@ void QXKB::cheklanguage()
 	case APP_LAYOUT:
 		if( active_app!=current_app) {
 			keys->setGroupNo(app_lang.value(current_app));
-			active_wm=current_wm;
+            active_app=current_app;
 		}
 		break;
 	case WIN_LAYOUT:
