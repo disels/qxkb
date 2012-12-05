@@ -37,26 +37,26 @@ ${CMAKE_CURRENT_SOURCE_DIR}/src
 
 
 set (QXKB_SOURCES
-src/qxkb.cpp
-src/xkeyboard.cpp
-src/xkbconf.cpp
-src/x11tools.cpp
-src/main.cpp
-src/datamodels.cpp
+        src/qxkb.cpp
+        src/xkeyboard.cpp
+        src/xkbconf.cpp
+        src/x11tools.cpp
+        src/main.cpp
+        src/datamodels.cpp
         src/qxtglobalshortcut_x11.cpp
         src/qxtglobalshortcut.cpp
 )
 
 set (QXKB_MOCS
-src/qxkb.h
-src/xkeyboard.h
-src/xkbconf.h
-#src/x11tools.h
-src/datamodels.h
-#src/defs.h
-        src/qxtglobal.h
+        src/qxkb.h
+        src/xkeyboard.h
+        src/xkbconf.h
+        #src/x11tools.h
+        src/datamodels.h
+        #src/defs.h
+        #src/qxtglobal.h
         src/qxtglobalshortcut.h
-        src/qxtglobalshortcut_p.h
+        #src/qxtglobalshortcut_p.h
 )
 
 set (QXKB_FORMS

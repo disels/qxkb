@@ -166,6 +166,9 @@ bool QXKB::x11EventFilter(XEvent *event)
 
 void QXKB::init()
 {
+	bool shReg;
+	QString shotCut;
+    shotCut="Shift+F12";
 	groupeName.clear();
 	if (xkbConf->status==DONT_USE_XKB)
 		return;
@@ -183,7 +186,12 @@ void QXKB::init()
 	clipboard=  QApplication::clipboard();
 	QxtGlobalShortcut* shortcut = new QxtGlobalShortcut(this);
 	connect(shortcut, SIGNAL(activated()), this, SLOT(showClipboard()));
-	qDebug()<<"Register shotcut"<<shortcut->setShortcut(QKeySequence("Ctrl+Shift+F12"));
+	shReg=shortcut->setShortcut(QKeySequence(shotCut));
+
+	qDebug()<<"Register shotcut"<<shReg;
+	if(!shReg) {
+		QMessageBox::critical(NULL,tr("Error"),tr("Faled to register current shortcut: ")+shotCut,QMessageBox::Ok);
+	}
 	//connect(clipboard,SIGNAL(selectionChanged()),SLOT(showClipboard()));
 	connect(keys,SIGNAL(groupChanged(int)),this,SLOT(groupChange(int)));
 	connect(keys,SIGNAL(layoutChanged()),this,SLOT(layoutChange()));
@@ -200,6 +208,7 @@ int QXKB::getLayoutNumber()
 void QXKB::showClipboard()
 {
 	selectedString= clipboard->text(QClipboard::Selection);
+	QMessageBox::information(NULL,QString("Hotkey aktivate"),selectedString,QMessageBox::Ok);
 	qDebug()<<"Current selection: "<< selectedString;
 
 }
@@ -524,9 +533,7 @@ void QXKB::cheklanguage()
 	QString current_app;
 	current_wm=X11tools::getActiveWindowId();
 	current_app=X11tools::getActiveWindowAppName(current_wm);
-	qDebug()<<"Active Window: " << current_wm;
-	qDebug()<<"Active Apps: " << current_app;
-	switch (xkbConf->switching) {
+    switch (xkbConf->switching) {
 	case GLOBAL_LAYOUT:
 		break;
 	case DESK_LAYOUT:
