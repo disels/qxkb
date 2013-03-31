@@ -1,8 +1,20 @@
-////////////////////////////////////////
-//  File      : qxkb.cpp              //
-//  Written by: disels@gmail.com      //
-//  Copyright : GPL                   //
-////////////////////////////////////////
+/***************************************************************************
+                          qxkb.cpp  -  description
+                             -------------------
+    begin                : Sun Sep 22 2010
+    copyright            : (C) 2010 by Phoudor Chelbarakh, Petr Vanek
+    email                : disels@gmail.com, yarpencz@gmail.com
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+
 
 #include "qxkb.h"
 
@@ -166,7 +178,6 @@ bool QXKB::x11EventFilter(XEvent *event)
 
 void QXKB::init()
 {
-	bool shReg;
 	QString shotCut;
     shotCut="Shift+F12";
 	groupeName.clear();
@@ -184,14 +195,7 @@ void QXKB::init()
 	else if (currentGroup == size-1)
 		nextGroupe = 0;
 	clipboard=  QApplication::clipboard();
-	QxtGlobalShortcut* shortcut = new QxtGlobalShortcut(this);
-	connect(shortcut, SIGNAL(activated()), this, SLOT(showClipboard()));
-	shReg=shortcut->setShortcut(QKeySequence(shotCut));
 
-	qDebug()<<"Register shotcut"<<shReg;
-	if(!shReg) {
-		QMessageBox::critical(NULL,tr("Error"),tr("Faled to register current shortcut: ")+shotCut,QMessageBox::Ok);
-	}
 	//connect(clipboard,SIGNAL(selectionChanged()),SLOT(showClipboard()));
 	connect(keys,SIGNAL(groupChanged(int)),this,SLOT(groupChange(int)));
 	connect(keys,SIGNAL(layoutChanged()),this,SLOT(layoutChange()));
