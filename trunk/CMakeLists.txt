@@ -43,8 +43,7 @@ set (QXKB_SOURCES
         src/x11tools.cpp
         src/main.cpp
         src/datamodels.cpp
-        src/qxtglobalshortcut_x11.cpp
-        src/qxtglobalshortcut.cpp
+
 )
 
 set (QXKB_MOCS
@@ -54,9 +53,7 @@ set (QXKB_MOCS
         #src/x11tools.h
         src/datamodels.h
         #src/defs.h
-        #src/qxtglobal.h
-        src/qxtglobalshortcut.h
-        #src/qxtglobalshortcut_p.h
+
 )
 
 set (QXKB_FORMS
