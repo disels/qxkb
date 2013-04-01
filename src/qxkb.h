@@ -31,7 +31,7 @@
 #include "x11tools.h"
 #include "xkbconf.h"
 #include "convert.h"
-#include "qxtglobalshortcut.h"
+
 
 
 class QXKB : public QApplication
