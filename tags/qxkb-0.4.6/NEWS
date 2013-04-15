@@ -1,0 +1,12 @@
+Version 0.4.5
+ Create Debian/rules
+
+Version 0.4.4
+ Change build system to cmake. Some code delete
+
+Version 0.4.3
+ Fix memory leak 
+
+Version 0.4.2
+ add switching policy like kxkb. Work on Global, Application and Windows. 
+ 
