@@ -1,0 +1,24 @@
+qxkb (0.4.5-4-svn) UNRELEASED; urgency=low
+
+  *  fix typo  in qxkb.cpp
+
+ -- disel <disel@disel.org.ua>  Wed, 05 Dec  2012 10:24:03 +0200
+qxkb (0.4.5-3-svn) UNRELEASED; urgency=low
+
+  *  fix problem with swech language per application or per windows. It's work correctly 
+  *  fix CMakeList delete src/qxtglobal.h and src/qxtglobalshortcut_p.h
+  *  code formated with astyle  in linux style
+
+ -- disel <disel@disel.org.ua>  Wed, 05 Dec  2012 10:24:03 +0200
+
+qxkb (0.4.5-2) UNRELEASED; urgency=low
+
+  * add singleapplication mode. Now runnin only one copy qxkb per user.
+
+ -- disel <disel@disel.org.ua>  Fri, 17 Aug 2012 08:43:03 +0300
+
+qxkb (0.4.5-1) UNRELEASED; urgency=low
+
+  * Initial release. (Closes: #XXXXXX)
+
+ -- disel <disel@disel.org.ua>  Fri, 17 Aug 2012 08:43:03 +0300

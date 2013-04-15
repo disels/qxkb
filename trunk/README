@@ -1,0 +1,25 @@
+AXKB this Qt application to adjust layouts by xkb. 
+Part of the code and interface window settings taken from KXKB and Kkbswitch.
+Completely absent on to the kde-libs. 
+Originally developed as a complement to the Antico DE. 
+But just as well work on other WM and DE. 
+Depends only on Qt and X-server
+***********************************
+
+License GPLv2
+
+***********************************
+Instalation
+in directory with source code do 
+
+mkdir build 
+cd build 
+cmake ..
+make 
+
+
+Write a AXKB in section automatically start in your WM or DE
+
+0.4.5
+ Fix ‘KeySym XKeycodeToKeysym(Display*, KeyCode, int)’ is deprecated (declared at /usr/include/X11/Xlib.h:1695
+ Cahnge XKeycodeToKeysym(Display*, KeyCode, int) to XkbKeycodeToKeysym(Display*, KeyCode, int)
