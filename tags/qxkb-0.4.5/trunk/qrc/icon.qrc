@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/about">
+        <file>qt.png</file>
+        <file>qxkb.png</file>
+    </qresource>
+</RCC>
