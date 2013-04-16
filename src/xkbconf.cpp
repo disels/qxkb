@@ -21,7 +21,7 @@ QXKBconf::QXKBconf(QWidget* parent) : QDialog(parent)
 {
 	xkb_conf.setupUi(this);
 	// initialize the binding between list and stackedWidget
-	xkb_conf.listWidget->setCurrentRow(0);
+    xkb_conf.listWidget->setCurrentRow(0);
 	QSettings qxkb(QDir::homePath() + "/.config/qxkb.cfg", QSettings::IniFormat, this);
 	qxkb.beginGroup("Style");
 	theme=qxkb.value("path").toString();
@@ -30,7 +30,26 @@ QXKBconf::QXKBconf(QWidget* parent) : QDialog(parent)
 	qDebug()<<"Theme " << theme;
 	qDebug()<<"Icons " << ico_path;
 	xkbConf = X11tools::loadXKBconf();
+    if ( xkbConf->delay!= 0)
+    {
+        xkb_conf.sp_delay->setValue(xkbConf->delay);
+    }
+    else
+    {
+      xkbConf->delay = xkb_conf.sp_delay->value();
+    }
 
+    if ( xkbConf->repeat !=0)
+    {
+        xkb_conf.sp_rep->setValue(xkbConf->repeat);
+    }
+    else
+    {
+        xkbConf->repeat = xkb_conf.sp_rep->value();
+    }
+
+    connect(xkb_conf.sp_delay,SIGNAL(valueChanged(int)),this,SLOT(delay_change(int)));
+    connect(xkb_conf.sp_rep,SIGNAL(valueChanged(int)),this,SLOT(rep_change(int)));
 	connect(xkb_conf.buttonBox,SIGNAL(rejected()),this,SLOT(close()) );
 	connect(xkb_conf.buttonBox,SIGNAL(accepted()) ,SLOT(apply()));
 	connect(xkb_conf.radioButton,SIGNAL(clicked(bool)),SLOT(statSelect(bool)));
@@ -41,6 +60,7 @@ QXKBconf::QXKBconf(QWidget* parent) : QDialog(parent)
 	connect(xkb_conf.rdBtnSwitchPerDesktop,SIGNAL(clicked(bool)),SLOT(switchSelect(bool)));
 	connect(xkb_conf.rdBtnSwitchPerApp,SIGNAL(clicked(bool)),SLOT(switchSelect(bool)));
 	connect(xkb_conf.rdBtnSwitchPerWin,SIGNAL(clicked(bool)),SLOT(switchSelect(bool)));
+
 
 	xkb_conf.btnAdd->setEnabled(false);
 	xkb_conf.btnRemove->setEnabled(false);
@@ -63,15 +83,27 @@ QXKBconf::~QXKBconf()
 void QXKBconf::apply()
 {
 	X11tools::saveXKBconf(xkbConf);
-	if (xkb_conf.stackedWidget->currentIndex()==0) {
+    /*if (xkb_conf.stackedWidget->currentIndex()==0) {
 		QStringList parm =  xkb_conf.editCmdLine->text().split(" ");
 		parm.removeAt(0);
 		qDebug()<<"Set XKB result"<< QProcess::execute("setxkbmap",parm);
-	} else if (xkb_conf.stackedWidget->currentIndex()==2) {
+        QStringList xparm;
+        xparm.append("r");
+        xparm.append("rate");
+        xparm.append(QString(xkbConf->delay));
+        xparm.append(QString(xkbConf->repeat));
+        qDebug()<<"Set xSet result"<<QProcess::execute("xset",xparm);
+    } else if (xkb_conf.stackedWidget->currentIndex()==2) {*/
 		QStringList parm = xkb_conf.editCmdLineOpt->text().split(" ");
 		parm.removeAt(0);
-		qDebug()<<"Set XKB result"<<QProcess::execute("setxkbmap",parm);
-	}
+        qDebug()<<"Set XKB result"<<QProcess::execute("setxkbmap",parm);
+        QStringList xparm;
+        xparm.append("r");
+        xparm.append("rate");
+        xparm.append(QString::number(xkbConf->delay));
+        xparm.append(QString::number(xkbConf->repeat));
+        qDebug()<<"Set xSet result"<<QProcess::execute("xset",xparm);
+    //}
 	//qDebug()<<"Close";
 	// close();
 	emit saveConfig();
@@ -425,11 +457,13 @@ void QXKBconf::closeEvent(QCloseEvent *event)
 void QXKBconf::xkbShortcutPressed()
 {
 	xkb_conf.stackedWidget->setCurrentIndex(2);
+    xkb_conf.listWidget->setCurrentRow(2);
 	xkbOptionsModel->gotoGroup("grp", xkb_conf.xkbOptionsTreeView);
 }
 
 void QXKBconf::xkbShortcut3dPressed()
 {
+    xkb_conf.listWidget->setCurrentRow(2);
 	xkb_conf.stackedWidget->setCurrentIndex(2);
 	xkbOptionsModel->gotoGroup("lv3", xkb_conf.xkbOptionsTreeView);
 }
@@ -486,4 +520,12 @@ void QXKBconf::clearHotKeys()
 	mods.clear();
 }
 
+void QXKBconf::delay_change(int new_dalay)
+{
+    xkbConf->delay=new_dalay;
+}
 
+void QXKBconf::rep_change(int new_rep)
+{
+    xkbConf->repeat = new_rep;
+}

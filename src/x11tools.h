@@ -86,7 +86,9 @@ struct XKBConf {
 	bool showSingle;
 	bool useConvert;
 	bool lockKeys;
-	QString shotcutConvert;
+    QString shotcutConvert;
+    int delay;
+    int repeat;
 
 };
 

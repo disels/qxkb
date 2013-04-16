@@ -58,6 +58,8 @@ public slots:
 	void xkbShortcut3dPressed();
 	void statSwitching(bool chek);
 	void switchSelect(bool chek);
+    void delay_change(int new_dalay);
+    void rep_change(int rep_dalay);
 
 private:
 	QString theme;

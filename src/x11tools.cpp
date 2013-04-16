@@ -516,8 +516,12 @@ XKBConf* X11tools::loadXKBconf()
 	Conf->switching= qxkb.value("switching").toInt();
 	Conf->useConvert= qxkb.value("useConvert").toBool();
 	Conf->shotcutConvert= qxkb.value("shotcutConvert").toString();
-	Conf->lockKeys=false;
-	qxkb.endGroup();
+    Conf->lockKeys=false;
+    qxkb.endGroup();
+    qxkb.beginGroup("xSet");
+    Conf->delay = qxkb.value("delay").toInt();
+    Conf->repeat = qxkb.value("repeat").toInt();
+    qxkb.endGroup();
 	return Conf;
 }
 
@@ -550,6 +554,10 @@ void X11tools::saveXKBconf(XKBConf* conf)
 	QString option= conf->options.join(",");
 	qxkb.setValue("option",option);
 	qxkb.endGroup();
+    qxkb.beginGroup("xSet");
+    qxkb.setValue("delay",conf->delay);
+    qxkb.setValue("repeat",conf->repeat);
+    qxkb.endGroup();
 
 }
 
