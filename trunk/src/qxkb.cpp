@@ -439,6 +439,21 @@ void  QXKB::set_xkb()
 		} else
 			qDebug()  << " QXKB:XKB  set";
 	}
+    setDelayInput(xkbConf->delay,xkbConf->repeat);
+}
+
+int QXKB::setDelayInput(int delay, int repeat)
+{
+ qDebug()  << " QXKB:Set delay";
+ QStringList argument;
+ argument.append("r");
+ argument.append("rate");
+ argument.append(QString::number(delay));
+ argument.append(QString::number(repeat));
+  qDebug()  << " QXKB:xset argument : " << argument;
+ int result = QProcess::execute("xset",argument);
+ qDebug()  << " QXKB:xset result : " << result;
+ return result;
 }
 
 void QXKB::actionsActivate(QAction * action)

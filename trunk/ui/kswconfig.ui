@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>690</width>
-    <height>454</height>
+    <width>684</width>
+    <height>448</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -426,6 +426,53 @@
             <number>0</number>
            </property>
            <layout class="QGridLayout" name="_9">
+            <item row="0" column="0">
+             <widget class="QGroupBox" name="groupBox_3">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="title">
+               <string>Switshing policy</string>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_4">
+               <item>
+                <widget class="QRadioButton" name="rdBtnSwitchGlobal">
+                 <property name="text">
+                  <string>&amp;Global</string>
+                 </property>
+                 <property name="checked">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QRadioButton" name="rdBtnSwitchPerDesktop">
+                 <property name="text">
+                  <string>Desktop</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QRadioButton" name="rdBtnSwitchPerApp">
+                 <property name="text">
+                  <string>Application</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QRadioButton" name="rdBtnSwitchPerWin">
+                 <property name="text">
+                  <string>&amp;Window</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+              <zorder>rdBtnSwitchGlobal</zorder>
+              <zorder>rdBtnSwitchPerApp</zorder>
+              <zorder>rdBtnSwitchPerDesktop</zorder>
+              <zorder>rdBtnSwitchPerWin</zorder>
+             </widget>
+            </item>
             <item row="0" column="1">
              <widget class="QGroupBox" name="groupBox">
               <property name="title">
@@ -510,54 +557,7 @@
               </layout>
              </widget>
             </item>
-            <item row="0" column="0">
-             <widget class="QGroupBox" name="groupBox_3">
-              <property name="enabled">
-               <bool>true</bool>
-              </property>
-              <property name="title">
-               <string>Switshing policy</string>
-              </property>
-              <layout class="QVBoxLayout" name="verticalLayout_4">
-               <item>
-                <widget class="QRadioButton" name="rdBtnSwitchGlobal">
-                 <property name="text">
-                  <string>&amp;Global</string>
-                 </property>
-                 <property name="checked">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QRadioButton" name="rdBtnSwitchPerDesktop">
-                 <property name="text">
-                  <string>Desktop</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QRadioButton" name="rdBtnSwitchPerApp">
-                 <property name="text">
-                  <string>Application</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QRadioButton" name="rdBtnSwitchPerWin">
-                 <property name="text">
-                  <string>&amp;Window</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-              <zorder>rdBtnSwitchGlobal</zorder>
-              <zorder>rdBtnSwitchPerApp</zorder>
-              <zorder>rdBtnSwitchPerDesktop</zorder>
-              <zorder>rdBtnSwitchPerWin</zorder>
-             </widget>
-            </item>
-            <item row="3" column="0">
+            <item row="1" column="0">
              <spacer>
               <property name="orientation">
                <enum>Qt::Vertical</enum>
@@ -570,8 +570,67 @@
               </property>
              </spacer>
             </item>
-            <item row="1" column="1" rowspan="2">
-             <layout class="QHBoxLayout" name="horizontalLayout_3"/>
+            <item row="1" column="1">
+             <widget class="QGroupBox" name="groupBox_4">
+              <property name="title">
+               <string>Keyboard repeat and dalay setting</string>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_2">
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_5">
+                 <property name="text">
+                  <string>Delay </string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QSpinBox" name="sp_delay">
+                 <property name="minimum">
+                  <number>10</number>
+                 </property>
+                 <property name="maximum">
+                  <number>10000</number>
+                 </property>
+                 <property name="singleStep">
+                  <number>10</number>
+                 </property>
+                 <property name="value">
+                  <number>1000</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_6">
+                 <property name="text">
+                  <string>Rate</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QSpinBox" name="sp_rep">
+                 <property name="minimum">
+                  <number>1</number>
+                 </property>
+                 <property name="maximum">
+                  <number>255</number>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <spacer name="verticalSpacer">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
             </item>
            </layout>
           </widget>

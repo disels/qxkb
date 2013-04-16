@@ -67,7 +67,7 @@ protected:
 	int setKeyLayout(QString keyConf);
 	void configure();
 	void set_xkb();
-
+    int setDelayInput(int delay,int repeat);
 
 private:
 	void draw_icon();
@@ -76,6 +76,7 @@ private:
 	int getLayoutNumber();
 	void updateAppsLanglist();
 	void cheklanguage();
+
 
 	Window active_wm;
 	QString active_app;
