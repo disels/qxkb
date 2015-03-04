@@ -69,8 +69,6 @@
 #include <QToolBox>
 #include <QComboBox>
 #include <QRadioButton>
-#include <QX11EmbedContainer>
-#include <QX11EmbedWidget>
 #include <QKeyEvent>
 #include <QFileIconProvider>
 #include <QCompleter>
@@ -85,7 +83,8 @@
 #include <QSystemTrayIcon>
 #include <QThread>
 #include <QKeySequence>
-//#include <QSvgRenderer>
+#include <QSvgRenderer>
+#include <QMimeData>
 
 #include <X11/X.h>
 #include <X11/Xlib.h>
