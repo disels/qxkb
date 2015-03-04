@@ -2,7 +2,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8.11)
 
 project(qxkb)
 
-set(QXKB_VERSION 0.4.6)
+set(QXKB_VERSION 0.5.1)
 add_definitions(-DQXKB_VERSION="${QXKB_VERSION}")
 
 set(QXKB_TRANSLATION_PATH ${CMAKE_INSTALL_PREFIX}/share/qxkb/i18n)
@@ -19,6 +19,7 @@ find_package(Qt5Core REQUIRED)
 find_package(Qt5Svg REQUIRED)
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5X11Extras REQUIRED)
+find_package(Qt5LinguistTools REQUIRED)
 
 # find required X11 modules
 find_package(X11 REQUIRED)
@@ -77,18 +78,8 @@ foreach (LANGUAGE ${LANGUAGES})
         set (QM ${TRANSLATIONS_PATH}/${LANGUAGE}.qm)
         set (TRANSLATIONS ${TRANSLATIONS} ${TS})
         set (TRANSLATIONS_BINARY ${TRANSLATIONS_BINARY} ${QM})
-        add_custom_command (
-                OUTPUT ${QM}
-                COMMAND ${Qt5_LRELEASE_EXECUTABLE} ${TS}
-                MAIN_DEPENDENCY ${TS})
+        qt5_add_translation(${QM} ${TS})
 endforeach()
-add_custom_target (
-        translations
-        COMMAND ${Qt5_LUPDATE_EXECUTABLE} ${HEADERS} ${SOURCES} ${FORMS} -ts ${TRANSLATIONS})
-add_custom_command (
-        TARGET translations
-        COMMAND ${Qt5_LRELEASE_EXECUTABLE} ${TRANSLATIONS})
-
 
 QT5_WRAP_UI(QXKB_UI ${QXKB_FORMS})
 QT5_WRAP_CPP(QXKB_MOC_SRC ${QXKB_MOCS})
