@@ -128,8 +128,11 @@ public:
 	void setConf(XKBConf * qxkb) {
 		m_qxkb= qxkb;
 	}
-	void reset() {
-		QAbstractTableModel::reset();
+	void beginResetModel() {
+		QAbstractTableModel::beginResetModel();
+	}
+	void endResetModel() {
+		QAbstractTableModel::endResetModel();
 	}
 	void emitDataChange(int row, int col) {
 		emit dataChanged(createIndex(row,col),createIndex(row,col));
@@ -169,8 +172,11 @@ public:
 		m_rules = rules;
 		m_xkbConfig = xkbConfig;
 	}
-	void reset() {
-		QAbstractItemModel::reset();
+	void beginResetModel() {
+		QAbstractItemModel::beginResetModel();
+	}
+	void endResetModel() {
+		QAbstractItemModel::endResetModel();
 	}
 	void gotoGroup(const QString& group, QTreeView* view);
 
