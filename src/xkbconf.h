@@ -22,6 +22,7 @@
 #include "x11tools.h"
 #include "datamodels.h"
 #include "ui_kswconfig.h"
+#undef Bool
 
 class QXKBconf : public QDialog
 {
