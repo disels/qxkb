@@ -66,10 +66,10 @@ QXKBconf::QXKBconf(QWidget* parent) : QDialog(parent)
 	xkb_conf.btnRemove->setEnabled(false);
 	xkb_conf.btnUp->setEnabled(false);
 	xkb_conf.btnDown->setEnabled(false);
-	xkb_conf.btnAdd->setIcon(QIcon::fromTheme(QString("arrow-right"),QIcon(theme+"/add.png")));
-	xkb_conf.btnRemove->setIcon(QIcon::fromTheme(QString("arrow-left"),QIcon(theme+"/rem.png")));
-	xkb_conf.btnUp->setIcon(QIcon::fromTheme(QString("arrow-up"), QIcon(theme+"/up.png")));
-	xkb_conf.btnDown->setIcon(QIcon::fromTheme(QString("arrow-down"), QIcon(theme+"/down.png")));
+	xkb_conf.btnAdd->setIcon(QIcon::fromTheme(QString("go-next"),QIcon(theme+"/add.png")));
+	xkb_conf.btnRemove->setIcon(QIcon::fromTheme(QString("go-previous"),QIcon(theme+"/rem.png")));
+	xkb_conf.btnUp->setIcon(QIcon::fromTheme(QString("go-up"), QIcon(theme+"/up.png")));
+	xkb_conf.btnDown->setIcon(QIcon::fromTheme(QString("go-down"), QIcon(theme+"/down.png")));
 	if (!setStat()) return;
 	initXKBTab();
 	xkbConf->lockKeys=true;
