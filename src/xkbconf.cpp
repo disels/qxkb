@@ -66,10 +66,10 @@ QXKBconf::QXKBconf(QWidget* parent) : QDialog(parent)
 	xkb_conf.btnRemove->setEnabled(false);
 	xkb_conf.btnUp->setEnabled(false);
 	xkb_conf.btnDown->setEnabled(false);
-	xkb_conf.btnAdd->setIcon(QIcon::fromTheme(QString("arrow-right"),QIcon(theme+"/add.png")));
-	xkb_conf.btnRemove->setIcon(QIcon::fromTheme(QString("arrow-left"),QIcon(theme+"/rem.png")));
-	xkb_conf.btnUp->setIcon(QIcon::fromTheme(QString("arrow-up"), QIcon(theme+"/up.png")));
-	xkb_conf.btnDown->setIcon(QIcon::fromTheme(QString("arrow-down"), QIcon(theme+"/down.png")));
+	xkb_conf.btnAdd->setIcon(QIcon::fromTheme(QString("go-next"),QIcon(theme+"/add.png")));
+	xkb_conf.btnRemove->setIcon(QIcon::fromTheme(QString("go-previous"),QIcon(theme+"/rem.png")));
+	xkb_conf.btnUp->setIcon(QIcon::fromTheme(QString("go-up"), QIcon(theme+"/up.png")));
+	xkb_conf.btnDown->setIcon(QIcon::fromTheme(QString("go-down"), QIcon(theme+"/down.png")));
 	if (!setStat()) return;
 	initXKBTab();
 	xkbConf->lockKeys=true;
@@ -268,6 +268,7 @@ void QXKBconf::setCmdLine()
 
 void QXKBconf::addLayout()
 {
+	dstLayoutModel->beginResetModel();
 	QItemSelectionModel* selectionModel = xkb_conf.srcTableView->selectionModel();
 	if( selectionModel == NULL || !selectionModel->hasSelection()
 	    || xkbConf->layouts.size() >= 4 )
@@ -281,7 +282,7 @@ void QXKBconf::addLayout()
 	LayoutUnit lu;
 	lu.layout=layout;
 	xkbConf->layouts.append(lu);
-	dstLayoutModel->reset();
+	dstLayoutModel->endResetModel();
 	xkb_conf.dstTableView->update();
 	setCmdLine();
 
@@ -289,12 +290,13 @@ void QXKBconf::addLayout()
 
 void QXKBconf::delLayout()
 {
+	dstLayoutModel->beginResetModel();
 	QItemSelectionModel* selectionModel = xkb_conf.dstTableView->selectionModel();
 	if( selectionModel == NULL || !selectionModel->hasSelection()|| xkbConf->layouts.size() == 0 )
 		return;
 	QModelIndexList selected = selectionModel->selectedRows();
 	xkbConf->layouts.removeAt(selected[0].row());
-	dstLayoutModel->reset();
+	dstLayoutModel->endResetModel();
 	xkb_conf.dstTableView->update();
 	setCmdLine();
 }
@@ -404,10 +406,11 @@ void QXKBconf::layoutUp()
 {
 	int row = getSelectedDstLayout();
 	if (row>0) {
+		dstLayoutModel->beginResetModel();
 		LayoutUnit lu = xkbConf->layouts[row-1];
 		xkbConf->layouts[row-1]=xkbConf->layouts[row];
 		xkbConf->layouts[row]=lu;
-		dstLayoutModel->reset();
+		dstLayoutModel->endResetModel();
 		xkb_conf.dstTableView->update();
 		setCmdLine();
 	}
@@ -417,10 +420,11 @@ void QXKBconf::layoutDown()
 {
 	int row = getSelectedDstLayout();
 	if (row<xkbConf->layouts.count()-1 && row>-1) {
+		dstLayoutModel->beginResetModel();
 		LayoutUnit lu = xkbConf->layouts[row+1];
 		xkbConf->layouts[row+1]=xkbConf->layouts[row];
 		xkbConf->layouts[row]=lu;
-		dstLayoutModel->reset();
+		dstLayoutModel->endResetModel();
 		setCmdLine();
 	}
 

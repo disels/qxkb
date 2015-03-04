@@ -1,4 +1,4 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 2.6.0)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8.11)
 
 project(qxkb)
 
@@ -13,11 +13,12 @@ add_definitions(-DQXKB_PID_PATH="${QXKB_PID_PATH}")
 
 
 # find the Qt
-set(QT_MIN_VERSION "4.6.0")
+set(QT_MIN_VERSION "5.2.1")
 set(QT_USE_QTSVG 1)
-find_package(Qt4 REQUIRED)
-include(${QT_USE_FILE})
-
+find_package(Qt5Core REQUIRED)
+find_package(Qt5Svg REQUIRED)
+find_package(Qt5Widgets REQUIRED)
+find_package(Qt5X11Extras REQUIRED)
 
 # find required X11 modules
 find_package(X11 REQUIRED)
@@ -29,7 +30,6 @@ endif()
 
 
 include_directories(
-${QT_INCLUDES}
 ${X11_Xkblib_INCLUDE_PATH}
 ${CMAKE_CURRENT_BINARY_DIR}
 ${CMAKE_CURRENT_SOURCE_DIR}/src
@@ -79,25 +79,26 @@ foreach (LANGUAGE ${LANGUAGES})
         set (TRANSLATIONS_BINARY ${TRANSLATIONS_BINARY} ${QM})
         add_custom_command (
                 OUTPUT ${QM}
-                COMMAND ${QT_LRELEASE_EXECUTABLE} ${TS}
+                COMMAND ${Qt5_LRELEASE_EXECUTABLE} ${TS}
                 MAIN_DEPENDENCY ${TS})
 endforeach()
 add_custom_target (
         translations
-        COMMAND ${QT_LUPDATE_EXECUTABLE} ${HEADERS} ${SOURCES} ${FORMS} -ts ${TRANSLATIONS})
+        COMMAND ${Qt5_LUPDATE_EXECUTABLE} ${HEADERS} ${SOURCES} ${FORMS} -ts ${TRANSLATIONS})
 add_custom_command (
         TARGET translations
-        COMMAND ${QT_LRELEASE_EXECUTABLE} ${TRANSLATIONS})
+        COMMAND ${Qt5_LRELEASE_EXECUTABLE} ${TRANSLATIONS})
 
 
-QT4_WRAP_UI(QXKB_UI ${QXKB_FORMS})
-QT4_WRAP_CPP(QXKB_MOC_SRC ${QXKB_MOCS})
-QT4_ADD_RESOURCES(QXKB_RCC ${QXKB_RESOURCES})
+QT5_WRAP_UI(QXKB_UI ${QXKB_FORMS})
+QT5_WRAP_CPP(QXKB_MOC_SRC ${QXKB_MOCS})
+QT5_ADD_RESOURCES(QXKB_RCC ${QXKB_RESOURCES})
 
 
 set(EXE_NAME ${CMAKE_PROJECT_NAME})
 add_executable(${EXE_NAME} ${QXKB_SOURCES} ${QXKB_UI} ${QXKB_MOC_SRC} ${QXKB_RCC} ${TRANSLATIONS})
-target_link_libraries(${EXE_NAME} ${QT_LIBRARIES} ${X11_X11_LIB} xkbfile)
+qt5_use_modules(${EXE_NAME} Core Svg Widgets X11Extras)
+target_link_libraries(${EXE_NAME} ${X11_X11_LIB} xkbfile)
 
 
 # installation
@@ -106,9 +107,9 @@ install(TARGETS ${EXE_NAME} RUNTIME DESTINATION bin LIBRARY DESTINATION lib${LIB
 #  translations (qm)
 install(DIRECTORY language/ DESTINATION ${QXKB_TRANSLATION_PATH}
 FILES_MATCHING PATTERN "*.qm"
-PATTERN ".svn" EXCLUDE)
+PATTERN ".git" EXCLUDE)
 #  themes
-install(DIRECTORY theme/ DESTINATION share/qxkb/theme PATTERN ".svn" EXCLUDE)
+install(DIRECTORY theme/ DESTINATION share/qxkb/theme PATTERN ".git" EXCLUDE)
 #  desktop file
 install(FILES desktop/qxkb.desktop DESTINATION share/applications)
 #  icon
