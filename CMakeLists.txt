@@ -31,9 +31,10 @@ endif()
 
 
 include_directories(
-${X11_Xkblib_INCLUDE_PATH}
-${CMAKE_CURRENT_BINARY_DIR}
-${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${X11_Xkblib_INCLUDE_PATH}
+    "${CMAKE_SOURCE_DIR}"
+    "${CMAKE_SOURCE_DIR}/src"
+    "${CMAKE_BINARY_DIR}"
 )
 
 
@@ -66,20 +67,11 @@ qrc/icon.qrc
 )
 
 set (LANGUAGES
-        qxkb_ru
-        qxkb_sr
+        language/qxkb_ru.ts
+        language/qxkb_sr.ts
 )
 
-set (TRANSLATIONS_PATH
-        ../language)
-
-foreach (LANGUAGE ${LANGUAGES})
-        set (TS ${TRANSLATIONS_PATH}/${LANGUAGE}.ts)
-        set (QM ${TRANSLATIONS_PATH}/${LANGUAGE}.qm)
-        set (TRANSLATIONS ${TRANSLATIONS} ${TS})
-        set (TRANSLATIONS_BINARY ${TRANSLATIONS_BINARY} ${QM})
-        qt5_add_translation(${QM} ${TS})
-endforeach()
+qt5_add_translation(QM ${LANGUAGES})
 
 QT5_WRAP_UI(QXKB_UI ${QXKB_FORMS})
 QT5_WRAP_CPP(QXKB_MOC_SRC ${QXKB_MOCS})
@@ -87,7 +79,7 @@ QT5_ADD_RESOURCES(QXKB_RCC ${QXKB_RESOURCES})
 
 
 set(EXE_NAME ${CMAKE_PROJECT_NAME})
-add_executable(${EXE_NAME} ${QXKB_SOURCES} ${QXKB_UI} ${QXKB_MOC_SRC} ${QXKB_RCC} ${TRANSLATIONS})
+add_executable(${EXE_NAME} ${QXKB_SOURCES} ${QXKB_UI} ${QXKB_MOC_SRC} ${QXKB_RCC} ${QM})
 qt5_use_modules(${EXE_NAME} Core Svg Widgets X11Extras)
 target_link_libraries(${EXE_NAME} ${X11_X11_LIB} xkbfile)
 
@@ -96,9 +88,7 @@ target_link_libraries(${EXE_NAME} ${X11_X11_LIB} xkbfile)
 #  binary
 install(TARGETS ${EXE_NAME} RUNTIME DESTINATION bin LIBRARY DESTINATION lib${LIB_SUFFIX})
 #  translations (qm)
-install(DIRECTORY language/ DESTINATION ${QXKB_TRANSLATION_PATH}
-FILES_MATCHING PATTERN "*.qm"
-PATTERN ".git" EXCLUDE)
+install(FILES ${QM} DESTINATION ${QXKB_TRANSLATION_PATH})
 #  themes
 install(DIRECTORY theme/ DESTINATION share/qxkb/theme PATTERN ".git" EXCLUDE)
 #  desktop file
